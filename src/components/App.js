@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import {votePost } from '../actions'
+
 import { Route, BrowserRouter } from 'react-router-dom'
-import HomePage from './components/home/HomePage'
-import Create from './components/post-detail/DetailPage'
-import './App.css';
+import HomePage from './home/HomePage'
+import Create from './post-detail/DetailPage'
+import '../App.css';
 
 class App extends Component {
   render() {
@@ -23,4 +26,8 @@ class App extends Component {
   }
 }
 
-export default App;
+//debo saber que hace esto
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
