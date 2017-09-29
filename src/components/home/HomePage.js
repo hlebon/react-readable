@@ -9,32 +9,9 @@ import Header from '../common/Header'
 
 class HomePage extends React.Component{
 
-    state = {
-        posts: []
-    }
-
-    componentDidMount(){
-        ContactsAPI.getPosts().then((posts) => {
-            this.setState({posts})
-        })
-    }
-
-    votePost = (id, type) => {
-        ContactsAPI.votePost(id, {
-            option: type
-        }).then(contact => {
-            console.log("He votado un post")
-            console.log(contact)
-        })
-    }
-
-
-
-
 
     render(){
         console.log(this.props);
-        const posts = this.state.posts;
         return (
             <div>
                 <Header/>
@@ -42,7 +19,7 @@ class HomePage extends React.Component{
                 <div className="container">
                     <div className="d-flex justify-content-center">
                         <NavControl/>
-                        <PostList posts={posts} votePost = {this.votePost}/>
+                        <PostList/>
                         <Categories/>
                     </div>
                 </div>
@@ -52,4 +29,12 @@ class HomePage extends React.Component{
     }
 }
 
-export default HomePage
+function mapStateToProps ( state ) {
+    return { 
+        nombre: "Hans",
+        posts: state.posts.postItems
+    }
+}
+
+
+export default connect(mapStateToProps)(HomePage)
