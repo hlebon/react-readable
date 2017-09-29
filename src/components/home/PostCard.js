@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 class PostCard extends Component{
     render(){
         const posts = this.props.posts
-        console.log(posts)
         return (
             <div className="card-deck">
                 {posts.map(post =>(
@@ -11,9 +10,11 @@ class PostCard extends Component{
                         <div className="card-body">
                             <h4 className="card-title">{post.title}</h4>
                             <p className="card-text">{post.body}</p>
+                            
                         </div>
                         <div className="card-footer">
-                            <small className="text-muted">options and buttons go here</small>
+                            <button onClick={()=> this.props.votePost(post.id, "upVote")} type="button" className="btn btn-secondary">up</button>
+                            <button type="button" className="btn btn-primary">down</button>
                         </div>
                     </div>
                 ))}

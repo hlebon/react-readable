@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
 import {votePost } from '../actions'
 
 import { Route, BrowserRouter } from 'react-router-dom'
@@ -26,8 +25,13 @@ class App extends Component {
   }
 }
 
-//debo saber que hace esto
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+export default App
+
+//mapStateToProps: recieve current store, current props and what it return will be avaliable to the component as props
+//allow us to specify which data from the store you want paased to your react component
+//Takes as arguments:  state and optional ownprops
+//returns a object
+
+
+//mapDispatchToProps: allows you to wrap actions creator inside of dispatch.
+
