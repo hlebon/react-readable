@@ -8,10 +8,14 @@ const initialPostListState = {
 }
 
 function postList (state = initialPostListState, action){
+    console.log("Action and state in reducer")
+    console.log(action)
+    console.log(state)
     switch (action.type) {
         case REQUEST_POSTS:
-            return Object.assign({}, state, {
-                isFetching: true
+            return Object.assign({}, state.posts, {
+                isFetching: true,
+                postItems: action.data
             })
         default:
             return state

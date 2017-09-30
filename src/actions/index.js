@@ -2,9 +2,12 @@ import * as ContactsAPI from "../components/utils/ReadableAPI";
 
 export const REQUEST_POSTS = "REQUEST_POSTS"
 
-export function requestPost() {
+export function requestPost( data ) {
+    console.log("data in action")
+    console.log(data)
     return {
-        type: "REQUEST_POSTS"
+        type: "REQUEST_POSTS",
+        data
     }
 }
 

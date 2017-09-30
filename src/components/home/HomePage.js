@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getPost } from '../../actions'
+import { requestPost } from '../../actions'
 import * as ContactsAPI from "../utils/ReadableAPI";
 import Categories from './Categories'
 import PostList from './PostList'
@@ -9,18 +9,36 @@ import Header from '../common/Header'
 
 class HomePage extends React.Component{
 
+    state = {
+        isFetching: false,
+        posts: []
+    }
+
+    componentDidMount(){
+        ContactsAPI.getPosts().then( (post) => {
+            this.setState( { posts: post  } )
+            this.props.callGetPost(post)
+        })
+    }
 
     render(){
+        console.log("props in homepage")
         console.log(this.props);
+        const posts = this.props.posts
+        const data = this.state.posts;
+        
+
         return (
             <div>
                 <Header/>
+                <span>{this.props.isFetching}</span>
                 <br/>
                 <div className="container">
                     <div className="d-flex justify-content-center">
                         <NavControl/>
-                        <PostList/>
+                        <PostList posts={posts}/>
                         <Categories/>
+                        <button onClick={(data) => this.props.callGetPost(data)}></button>
                     </div>
                 </div>
             </div>
@@ -30,11 +48,18 @@ class HomePage extends React.Component{
 }
 
 function mapStateToProps ( state ) {
+    console.log(state);
     return { 
-        nombre: "Hans",
-        posts: state.posts.postItems
+        posts: state.postItems,
+        isFetching: state.isFetching
+    }
+}
+
+function mapDispatchToProps ( dispatch ) {
+    return {
+        callGetPost: (data) => dispatch((requestPost(data)))
     }
 }
 
 
-export default connect(mapStateToProps)(HomePage)
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

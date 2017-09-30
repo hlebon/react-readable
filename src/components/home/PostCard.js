@@ -5,9 +5,10 @@ class PostCard extends Component{
         const posts = this.props.posts
         return (
             <div className="card-deck">
+                {posts.map( ( posts ) => {
                     <div className="card">
                         <div className="card-body">
-                            <h4 className="card-title"></h4>
+                            <h4 className="card-title">{posts.title}</h4>
                             <p className="card-text"></p>
                             
                         </div>
@@ -16,6 +17,7 @@ class PostCard extends Component{
                             <button type="button" className="btn btn-primary">down</button>
                         </div>
                     </div>
+                } )}
             </div>
             
         )
