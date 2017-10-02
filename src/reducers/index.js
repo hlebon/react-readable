@@ -1,10 +1,9 @@
 import { REQUEST_POSTS } from '../actions'
 
 const initialPostListState = {
-    posts: {
-        isFetching: false,
-        postItems: ["hola mundo", "hola hans"]
-    }
+    isFetching : false,
+    postItems: []
+    
 }
 
 function postList (state = initialPostListState, action){

@@ -16,18 +16,13 @@ class HomePage extends React.Component{
 
     componentDidMount(){
         ContactsAPI.getPosts().then( (post) => {
-            this.setState( { posts: post  } )
             this.props.callGetPost(post)
         })
     }
 
     render(){
-        console.log("props in homepage")
-        console.log(this.props);
         const posts = this.props.posts
-        const data = this.state.posts;
-        
-
+    
         return (
             <div>
                 <Header/>
@@ -36,9 +31,8 @@ class HomePage extends React.Component{
                 <div className="container">
                     <div className="d-flex justify-content-center">
                         <NavControl/>
-                        <PostList posts={posts}/>
+                        <PostList posts={this.props.posts}/>
                         <Categories/>
-                        <button onClick={(data) => this.props.callGetPost(data)}></button>
                     </div>
                 </div>
             </div>
@@ -48,7 +42,7 @@ class HomePage extends React.Component{
 }
 
 function mapStateToProps ( state ) {
-    console.log(state);
+    console.log(state)
     return { 
         posts: state.postItems,
         isFetching: state.isFetching
