@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { requestPost } from '../../actions'
+import { requestPost, requestCategories } from '../../actions'
 import * as ContactsAPI from "../utils/ReadableAPI";
 import Categories from './Categories'
 import PostList from './PostList'
@@ -17,10 +17,15 @@ class HomePage extends React.Component{
     componentDidMount(){
         ContactsAPI.getPosts().then( (post) => {
             this.props.callGetPost(post)
-        })
+        });
+
+        ContactsAPI.getCategories().then( (category) => {
+            this.props.callGetCategories(category);
+        } )
     }
 
     render(){
+        console.log(this.props)
         const posts = this.props.posts
     
         return (
@@ -31,7 +36,7 @@ class HomePage extends React.Component{
                 <div className="container">
                     <div className="d-flex justify-content-center">
                         <NavControl/>
-                        <PostList posts={this.props.posts}/>
+                        <PostList/>
                         <Categories/>
                     </div>
                 </div>
@@ -51,7 +56,8 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
     return {
-        callGetPost: (data) => dispatch((requestPost(data)))
+        callGetPost: (data) => dispatch((requestPost(data))),
+        callGetCategories: (data) => dispatch((requestCategories(data)))
     }
 }
 
