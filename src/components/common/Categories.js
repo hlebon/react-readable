@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class Categories extends Component{
     render(){
@@ -6,9 +7,7 @@ class Categories extends Component{
             <div className="col-lg-2">
                 <h3>Categories</h3>
                 <div className="list-group">
-                    <button className="list-group-item list-group-item-action">React</button>
-                    <button className="list-group-item list-group-item-action">Asp.net core</button>
-                    <button className="list-group-item list-group-item-action ">Open Source</button>
+                        <Link to="/category" className="list-group-item list-group-item-action">Name</Link>
                 </div>
             </div>
         )

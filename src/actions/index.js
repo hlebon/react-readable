@@ -11,6 +11,7 @@ export function requestPost( data ) {
 }
 
 export function requestCategories ( data ) {
+    console.log(data)
     return {
         type: REQUEST_CATEGORY,
         data

@@ -8,13 +8,13 @@ class NavControl extends Component{
                     <h3>Control</h3>
                     <ul className="p-2 nav flex-column">
                         <li className="nav-item">
-                            <a href="#" className="nav-link active">Active</a>
+                            <button type="button" className="btn btn-secondary">Active</button>
                         </li>
                         <li className="nav-item">
-                            <a href="#" className="nav-link">Active</a>
+                            <button type="button" className="btn btn-secondary">Active</button>
                         </li>
                         <li className="nav-item">
-                            <a href="#" className="nav-link">Active</a>
+                            <button type="button" className="btn btn-secondary">Active</button>
                         </li>
                     </ul>
                 </div>

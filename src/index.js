@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom'
 import  'bootstrap/dist/css/bootstrap.css'
 import './index.css';
 import App from './components/App';
+import MainApp from './mainApp';
 
 import reducer from './reducers'
 import { createStore, compose } from 'redux'
@@ -29,7 +31,9 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <HashRouter>
+            <MainApp />
+        </HashRouter>
     </Provider>,
     document.getElementById('root'));
 registerServiceWorker();
