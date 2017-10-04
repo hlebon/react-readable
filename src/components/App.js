@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {votePost } from '../actions'
 
 import { Route, Switch } from 'react-router-dom'
 import HomePage from './home/HomePage'
@@ -10,18 +9,19 @@ import CategoryPage from './category/CategoryPage'
 class App extends Component {
   render() {
     return (
-    <Switch>
-        <Route exact path="/" component={()=>(
-          <HomePage/>
-        )}/>
-        <Route path="/detail" component={()=>(
-          <DetailPage/>
-        )}/>
-        <Route path="/category" componet={()=>(
-          <CategoryPage/>
-        )}/>
-        <Route path="/edit"/>
-    </Switch>
+      <div className="col-lg-10">
+        <Switch>
+          <Route exact path="/" render={()=>(
+            <HomePage/>
+          )}/>
+          <Route path="/detail" render={()=>(
+            <DetailPage/>
+          )}/>
+          <Route path="/category" render={()=>(
+            <CategoryPage/>
+          )}/>
+        </Switch>
+      </div>
     );
   }
 }

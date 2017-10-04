@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class PostCard extends Component{
     render(){
@@ -7,6 +8,7 @@ class PostCard extends Component{
                     <div className="card">
                         <div className="card-body">
                             <h4 className="card-title">Titulo</h4>
+                            <Link to="/detail">Detalle</Link>
                             <p className="card-text">Body</p>
                             
                         </div>
