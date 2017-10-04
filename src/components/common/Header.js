@@ -6,7 +6,7 @@ class Header extends Component{
         return (
             <div className="bg-dark">
                 <nav className="container navbar navbar-dark">
-                    <Link to="/" className="navbar-brand" href="#">React Blog</Link>
+                    <Link to="/" className="navbar-brand">React Blog</Link>
                 </nav>
             </div>
         )

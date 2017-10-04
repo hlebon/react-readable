@@ -33,7 +33,6 @@ function mapStateToProps ( state ) {
     console.log(state)
     return { 
         posts: state.postItems,
-        isFetching: state.isFetching,
         categories: state.categories
     }
 }

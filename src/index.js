@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom'
 import  'bootstrap/dist/css/bootstrap.css'
 import './index.css';
-import App from './components/App';
 import MainApp from './mainApp';
-
 import reducer from './reducers'
 import { createStore, compose } from 'redux'
 import { Provider } from 'react-redux'
