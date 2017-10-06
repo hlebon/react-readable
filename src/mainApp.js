@@ -5,6 +5,7 @@ import { requestPost, requestCategories } from './actions'
 import Header from './components/common/Header'
 import Categories from './components/common/Categories'
 import App from './components/App'
+import { BrowserRouter } from 'react-router-dom'
 
 class MainApp extends React.Component{
 
@@ -20,6 +21,7 @@ class MainApp extends React.Component{
 
     render(){
         return(
+            <BrowserRouter>
             <div>
                 <Header/>
                 <br/>
@@ -30,6 +32,7 @@ class MainApp extends React.Component{
                     </div>
                 </div>
             </div>
+            </BrowserRouter>
         )
     }
 }

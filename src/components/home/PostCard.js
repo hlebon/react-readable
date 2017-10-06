@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 class PostCard extends Component{
     render(){
         return (
-            <div className="card-deck">
+            <div className="col-lg-10"> 
+                <div className="card-deck">
                     <div className="card">
                         <div className="card-body">
                             <h4 className="card-title">Titulo</h4>
@@ -17,6 +18,7 @@ class PostCard extends Component{
                             <button type="button" className="btn btn-primary">down</button>
                         </div>
                     </div>
+                </div>
             </div>
         )
     }
