@@ -3,23 +3,23 @@ import { Link } from 'react-router-dom'
 
 class PostCard extends Component{
     render(){
-        return (
-            <div className="col-lg-10"> 
+        const { postList } = this.props
+        return (             
                 <div className="card-deck">
-                    <div className="card">
+                    {postList.map( ( post ) => (
+                    <div key={ post.id } className="card">
                         <div className="card-body">
-                            <h4 className="card-title">Titulo</h4>
+                            <h4 className="card-title">{post.title}</h4>
                             <Link to="/detail">Detalle</Link>
-                            <p className="card-text">Body</p>
-                            
+                            <p className="card-text">{post.body}</p>
                         </div>
                         <div className="card-footer">
                             <button type="button" className="btn btn-secondary">up</button>
                             <button type="button" className="btn btn-primary">down</button>
                         </div>
                     </div>
+                    ))}
                 </div>
-            </div>
         )
     }
 }

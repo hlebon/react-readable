@@ -25,11 +25,8 @@ class MainApp extends React.Component{
             <div>
                 <Header/>
                 <br/>
-                <div className="container">
-                    <div className="d-flex justify-content-center">
-                        <App/>
-                        <Categories/>
-                    </div>
+                <div>
+                    <App/>
                 </div>
             </div>
             </BrowserRouter>

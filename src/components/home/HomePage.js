@@ -4,36 +4,36 @@ import { requestPost, requestCategories } from '../../actions'
 import PostList from '../common/PostList'
 import PostCard from './PostCard'
 import NavControl from '../common/NavControl'
+import Categories from '../common/Categories'
 import escapeRegExp from "escape-string-regexp";
 import sortBy from "sort-by";
 
 
 class HomePage extends React.Component{
     render(){
-
         const { category, posts } = this.props
         const postItems = this.props.posts
-        console.log(posts)
-
-        console.log(typeof(category) !== undefined);
 
         let postList
-        if(!category){
+        if(typeof(category) !== 'undefined'){
             const match = new RegExp(escapeRegExp(category), 'i');
             postList = posts.filter((p) => match.test(p.category))
         }else{
-            postList = postList;
+            postList = posts;
         }
 
-        postList.sort(sortBy('name'));
-
-        console.log(postList)
-        console.log(this.props.category)
-        
+        postList.sort(sortBy('voteScore'));
         return (
-            <div className="d-flex justify-content-between">
-                <NavControl/>
-                <PostCard postList={this.props}/>
+            <div className="row">
+                <div className="col-lg-2">
+                    <NavControl/>
+                </div>
+                <div className="col-lg-8">
+                    <PostCard postList={postList}/>
+                </div>
+                <div className="col-lg-2">
+                    <Categories/>
+                </div>
             </div>
         )
 

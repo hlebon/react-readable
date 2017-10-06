@@ -1,7 +1,7 @@
-import { React, Component } from 'react'
+import React, { Component } from 'react'
 
 
-class Create extends Component{
+class CreatePage extends React.Component{
     render(){
         return (
             <h1>Hola desde Create Page</h1>
@@ -9,4 +9,4 @@ class Create extends Component{
     }
 }
 
-export default Create
+export default CreatePage
