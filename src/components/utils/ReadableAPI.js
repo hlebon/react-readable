@@ -49,8 +49,9 @@ export const votePost = (id, vote) =>
       ...headers,
       'Content-Type' : 'application/json' 
     }, 
-    body: JSON.stringify(vote)
+    body: JSON.stringify(vote = {option: vote})
   }).then( res => res.json())
+    .then( data => data )
 
 
 //Editar un post

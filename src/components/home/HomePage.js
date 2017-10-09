@@ -1,15 +1,33 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { requestPost, requestCategories } from '../../actions'
-import PostList from '../common/PostList'
+import { requestPost, requestCategories, changeVote } from '../../actions'
 import PostCard from './PostCard'
 import NavControl from '../common/NavControl'
 import Categories from '../common/Categories'
 import escapeRegExp from "escape-string-regexp";
 import sortBy from "sort-by";
+import * as ReadableAPI from '../utils/ReadableAPI'
 
 
-class HomePage extends React.Component{
+class HomePage extends React.Component {
+    state = {
+        postItems: []
+    }
+
+    componentDidMount(){
+        this.setState({ postItems: this.props.posts })
+        console.log(this.state.postItems)
+    }
+
+    handleVote = (postId, score) => {
+        ReadableAPI.votePost(postId, score).then( (val) => {
+            this.props.changeVote(val)
+        });
+    }
+
+
+
+
     render(){
         const { category, posts } = this.props
         const postItems = this.props.posts
@@ -29,7 +47,7 @@ class HomePage extends React.Component{
                     <NavControl/>
                 </div>
                 <div className="col-lg-8">
-                    <PostCard postList={postList}/>
+                    <PostCard postList={postList} handleVote={this.handleVote}/>
                 </div>
                 <div className="col-lg-2">
                     <Categories/>
@@ -48,4 +66,10 @@ function mapStateToProps ( state ) {
     }
 }
 
-export default connect(mapStateToProps)(HomePage)
+function mapDispatchToProps ( dispatch ) {
+    return {
+        changeVote: (data) => dispatch((changeVote(data)))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

@@ -1,15 +1,13 @@
-import { REQUEST_POSTS, REQUEST_CATEGORY } from '../actions'
+import { REQUEST_POSTS, REQUEST_CATEGORY, CHANGE_VOTE } from '../actions'
 
 
 const initialPostListState = {
     isFetching : false,
     postItems: [],
-    categories: []
-    
+    categories: [],
 }
 
 function requestFromServer (state = initialPostListState, action){
-    console.log("Action and state in reducer")
     console.log(action)
     switch (action.type) {
         case REQUEST_POSTS:
