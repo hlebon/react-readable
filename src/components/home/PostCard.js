@@ -6,6 +6,12 @@ class PostCard extends Component{
         this.props.handleVote(post, vote)
     }
 
+    castDate = (unformatt) => {
+        const date = new Date(unformatt);
+        console.log(date);
+        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+    }
+
     render(){
         const { postList } = this.props
         return (             
@@ -16,6 +22,11 @@ class PostCard extends Component{
                             <h4 className="card-title">
                                 <Link to="/detail">{post.title}</Link>
                             </h4>
+                            <p className="card-text">
+                                <small className="text-muted">
+                                    {this.castDate(post.timestamp)}
+                                </small>
+                            </p>
                             <p className="card-text">{post.body}</p>
                         </div>
                         <div className="card-footer ">
