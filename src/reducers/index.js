@@ -1,13 +1,13 @@
-import { REQUEST_POSTS, REQUEST_CATEGORY, CHANGE_VOTE } from '../actions'
+import { REQUEST_POSTS, REQUEST_CATEGORY, CHANGE_VOTE, SORT_POST } from '../actions'
 
 
 const initialPostListState = {
     isFetching : false,
     postItems: [],
-    categories: [],
+    categories: []
 }
 
-function requestFromServer (state = initialPostListState, action){
+function pageList (state = initialPostListState, action){
     console.log(action)
     switch (action.type) {
         case REQUEST_POSTS:
@@ -28,5 +28,5 @@ function requestFromServer (state = initialPostListState, action){
     }
 }
 
-export default requestFromServer
+export default pageList
 

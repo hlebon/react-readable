@@ -1,3 +1,4 @@
+//#region import
 import React from 'react'
 import { connect } from 'react-redux'
 import { requestPost, requestCategories, changeVote } from '../../actions'
@@ -8,10 +9,13 @@ import escapeRegExp from "escape-string-regexp";
 import sortBy from "sort-by";
 import * as ReadableAPI from '../utils/ReadableAPI'
 
+//#endregion import
 
+//#region class definition
 class HomePage extends React.Component {
     state = {
-        postItems: []
+        postItems: [],
+        filterBy: '-voteScore'
     }
 
     componentDidMount(){
@@ -25,6 +29,15 @@ class HomePage extends React.Component {
         })
     }
 
+    handleSort = (val, type) => {
+        if(val=="+"){
+            val = ""
+        }
+
+        this.setState({
+            filterBy: `${val}${type}`
+        })
+    }
 
     handleVote = (post, score) => {
         ReadableAPI.votePost(post.id, score).then( (postUpdated) => {
@@ -34,24 +47,17 @@ class HomePage extends React.Component {
             postItem.splice(postPosition, 1)
             postItem.splice(postPosition, 0, postUpdated)
 
-            this.setState(state => ({
+            this.setState({
                 postItems: postItem
-            }));
-            console.log(this.state.postItems);
+            });
             this.props.changeVote(this.state.postItems)
         });
     }
 
 
     render(){
-
-        console.log(this.state.postItems)
-        console.log(this.props)
-
         const { category, posts } = this.props
         const postItems = this.state.postItems
-
-        console.log(category)
 
         let postList
         if(typeof(category) !== 'undefined'){
@@ -61,11 +67,12 @@ class HomePage extends React.Component {
             postList = postItems;
         }
 
-        postList.sort(sortBy('voteScore'));
+        postList.sort(sortBy(`${this.state.filterBy}`));
+        
         return (
             <div className="row">
                 <div className="col-lg-2">
-                    <NavControl/>
+                    <NavControl handleSort={this.handleSort}/>
                 </div>
                 <div className="col-lg-8">
                     <PostCard postList={postList} handleVote={this.handleVote}/>
@@ -78,6 +85,9 @@ class HomePage extends React.Component {
     }
 }
 
+//#endregion class definition
+
+//#region redux-to-props
 function mapStateToProps ( state ) {
     console.log(state)
     return { 
@@ -93,5 +103,7 @@ function mapDispatchToProps ( dispatch ) {
         callGetCategories: (data) => dispatch((requestCategories(data)))
     }
 }
+
+//#endregion redux-to-props
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

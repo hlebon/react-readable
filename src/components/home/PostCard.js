@@ -8,8 +8,7 @@ class PostCard extends Component{
 
     castDate = (unformatt) => {
         const date = new Date(unformatt);
-        console.log(date);
-        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+        return `${date.getDate()} / ${date.getMonth()} / ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }
 
     render(){
