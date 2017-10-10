@@ -18,7 +18,11 @@ function requestFromServer (state = initialPostListState, action){
         case REQUEST_CATEGORY:
             return Object.assign( {}, state, {
                 categories: action.data
-            } )
+            })
+        case CHANGE_VOTE:
+            return Object.assign( {}, state,  {
+                postItems: action.data
+            })
         default:
             return state
     }

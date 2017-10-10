@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom'
 
 class PostCard extends Component{
     handleVote = (post, vote) => {
-        this.props.handleVote(post.id, vote)
+        this.props.handleVote(post, vote)
     }
 
     render(){
         const { postList } = this.props
-        console.log(postList);
         return (             
                 <div className="card-deck">
                     {postList.map( ( post ) => (

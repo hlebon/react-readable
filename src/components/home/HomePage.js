@@ -15,29 +15,50 @@ class HomePage extends React.Component {
     }
 
     componentDidMount(){
-        this.setState({ postItems: this.props.posts })
-        console.log(this.state.postItems)
+        ReadableAPI.getPosts().then( (post) => {
+            this.setState({ postItems: post })
+            this.props.callGetPost(post)
+        });
+
+        ReadableAPI.getCategories().then( (data) => {
+            this.props.callGetCategories(data.categories);
+        })
     }
 
-    handleVote = (postId, score) => {
-        ReadableAPI.votePost(postId, score).then( (val) => {
-            this.props.changeVote(val)
+
+    handleVote = (post, score) => {
+        ReadableAPI.votePost(post.id, score).then( (postUpdated) => {
+            const postItem = this.state.postItems;
+            const postPosition = postItem.indexOf(post)
+
+            postItem.splice(postPosition, 1)
+            postItem.splice(postPosition, 0, postUpdated)
+
+            this.setState(state => ({
+                postItems: postItem
+            }));
+            console.log(this.state.postItems);
+            this.props.changeVote(this.state.postItems)
         });
     }
 
 
-
-
     render(){
+
+        console.log(this.state.postItems)
+        console.log(this.props)
+
         const { category, posts } = this.props
-        const postItems = this.props.posts
+        const postItems = this.state.postItems
+
+        console.log(category)
 
         let postList
         if(typeof(category) !== 'undefined'){
             const match = new RegExp(escapeRegExp(category), 'i');
-            postList = posts.filter((p) => match.test(p.category))
+            postList = postItems.filter((p) => match.test(p.category))
         }else{
-            postList = posts;
+            postList = postItems;
         }
 
         postList.sort(sortBy('voteScore'));
@@ -54,7 +75,6 @@ class HomePage extends React.Component {
                 </div>
             </div>
         )
-
     }
 }
 
@@ -68,7 +88,9 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
     return {
-        changeVote: (data) => dispatch((changeVote(data)))
+        changeVote: (data) => dispatch((changeVote(data))),
+        callGetPost: (data) => dispatch((requestPost(data))),
+        callGetCategories: (data) => dispatch((requestCategories(data)))
     }
 }
 
