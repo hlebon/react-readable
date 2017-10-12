@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 
 
-class CreatePage extends React.Component{
+class CreatePage extends Component{
     render(){
         return (
-            <h1>Hola desde Create Page</h1>
+            <div className="container">
+                <h1>Hola desde Create Page</h1>
+            </div>
         )
     }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom'
 import  'bootstrap/dist/css/bootstrap.css'
 import './index.css';
 import MainApp from './mainApp';
@@ -16,7 +17,7 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-        <MainApp />
+            <MainApp />
     </Provider>,
     document.getElementById('root'));
 registerServiceWorker();

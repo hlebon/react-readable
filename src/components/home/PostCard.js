@@ -19,7 +19,7 @@ class PostCard extends Component{
                     <div key={ post.id } className="card">
                         <div className="card-body">
                             <h4 className="card-title">
-                                <Link to="/detail">{post.title}</Link>
+                                <Link to={`/´post/${post.category}/${post.id}`}>{post.title}</Link>
                             </h4>
                             <p className="card-text">
                                 <small className="text-muted">

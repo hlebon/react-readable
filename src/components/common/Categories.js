@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 class Categories extends Component{
     render(){
+        console.log(this.props);
         return (
             <div>
                 <h3>Categories</h3>
@@ -21,7 +22,6 @@ class Categories extends Component{
 function mapStateToProps ( state ) {
     console.log(state)
     return { 
-        posts: state.postItems,
         categories: state.categories
     }
 }

@@ -10,13 +10,13 @@ class MainApp extends React.Component{
     render(){
         return(
             <BrowserRouter>
-            <div>
-                <Header/>
-                <br/>
                 <div>
-                    <App/>
+                    <Header/>
+                    <br/>
+                    <div className="container">
+                        <App/>
+                    </div>
                 </div>
-            </div>
             </BrowserRouter>
         )
     }

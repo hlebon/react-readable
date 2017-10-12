@@ -8,6 +8,7 @@ import Categories from '../common/Categories'
 import escapeRegExp from "escape-string-regexp";
 import sortBy from "sort-by";
 import * as ReadableAPI from '../utils/ReadableAPI'
+import { Link } from 'react-router-dom'
 
 //#endregion import
 
@@ -19,12 +20,15 @@ class HomePage extends React.Component {
     }
 
     componentDidMount(){
+        console.log("componentDidMount")
         ReadableAPI.getPosts().then( (post) => {
+            console.log(post);
             this.setState({ postItems: post })
             this.props.callGetPost(post)
         });
 
         ReadableAPI.getCategories().then( (data) => {
+            console.log(data);
             this.props.callGetCategories(data.categories);
         })
     }
@@ -57,6 +61,7 @@ class HomePage extends React.Component {
 
     render(){
         const { category, posts } = this.props
+        console.log(category)
         const postItems = this.state.postItems
 
         let postList

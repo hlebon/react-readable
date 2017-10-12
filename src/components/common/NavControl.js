@@ -20,8 +20,8 @@ class NavControl extends Component{
 
     render(){
         return(
-            <div className="col">
-                <div className="bg-light">
+            <div className="raw bg-light d-flex justify-content-center">
+                <div className="col">
                     <h3>Control</h3>
                     <div>
                         <div className="form-group">
