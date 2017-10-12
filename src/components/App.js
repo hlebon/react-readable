@@ -12,7 +12,7 @@ class App extends Component {
             <Route exact path="/" render={()=>(
               <HomePage />
             )}/>
-            <Route path="´/post/:category/:post_id" render={(props)=>(
+            <Route path="/post/:category/:post_id" render={(props)=>(
               <DetailPage postId={props.match.params.post_id}/>
             )}/>
             <Route exact path="/category/:category" render={(props)=>(
