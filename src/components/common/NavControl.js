@@ -3,18 +3,29 @@ import React, { Component } from 'react'
 class NavControl extends Component{
     state = {
         date: "",
-        vote: "-" 
+        vote: "-",
+        filterBy: "-voteScore"
+    }
+
+    handleSort = (val, type) => {
+        if(val=="+"){
+            val = ""
+        }
+
+        this.setState({
+            filterBy: `${val}${type}`
+        })
     }
 
     handleChange = (event, type) => {
         console.log(this.props)
         if(type === "voteScore"){
             this.setState({vote: event.target.value})
-            this.props.handleSort(event.target.value, type);
+            this.handleSort(event.target.value, type);
         }
         else if(type === "timestamp"){
             this.setState({date: event.target.value})
-            this.props.handleSort(event.target.value, type);
+            this.handleSort(event.target.value, type);
         }
     }
 

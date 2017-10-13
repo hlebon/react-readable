@@ -5,6 +5,9 @@ class CreatePage extends Component{
     render(){
         return (
                 <form className="col-lg-6">
+                    <div>
+                        <h1>Create/Edit View</h1>
+                    </div>
                     <div className="form-group">
                         <label className="col-form-label">Post Title</label>
                         <input type="text" className="form-control" placeholder="Title"/>
