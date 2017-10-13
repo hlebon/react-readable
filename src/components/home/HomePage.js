@@ -2,9 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { requestPost, requestCategories, changeVote } from '../../actions'
-import PostCard from './PostCard'
-import NavControl from '../common/NavControl'
-import Categories from '../common/Categories'
+import PostList from '../common/PostList'
 import escapeRegExp from "escape-string-regexp";
 import sortBy from "sort-by";
 import * as ReadableAPI from '../utils/ReadableAPI'
@@ -75,15 +73,12 @@ class HomePage extends React.Component {
         postList.sort(sortBy(`${this.state.filterBy}`));
         
         return (
-            <div className="row">
-                <div className="col-lg-2">
-                    <NavControl handleSort={this.handleSort}/>
+            <div className="d-flex flex-column">
+                <div className="p-2">
+                    <Link to="/create" className="btn btn-primary">Create</Link>
                 </div>
-                <div className="col-lg-8">
-                    <PostCard postList={postList} handleVote={this.handleVote}/>
-                </div>
-                <div className="col-lg-2">
-                    <Categories/>
+                <div className="p-2">
+                    <PostList/>
                 </div>
             </div>
         )
