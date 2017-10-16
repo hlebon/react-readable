@@ -5,6 +5,7 @@ import sortBy from "sort-by";
 import PostCard from '../home/PostCard'
 import Categories from '../common/Categories'
 import NavControl from '../common/NavControl'
+import { requestSinglePost } from '../../actions'
 
 
 
@@ -53,7 +54,7 @@ class PostList extends Component{
                     <NavControl/>    
                 </div>
                 <div className="col-lg-8">
-                    <PostCard postList={postList}/>
+                    <PostCard setSinglePost={this.props.setSinglePost} postList={postList}/>
                 </div>
                 <div className="col-lg-2">
                     <Categories categories={categories}/>
@@ -73,7 +74,8 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
     return {
-        //changeVote: (data) => dispatch((changeVote(data))),
+       // changeVote: (data) => dispatch((changeVote(data))),
+       setSinglePost: (data) => dispatch((requestSinglePost(data)))
     }
 }
 

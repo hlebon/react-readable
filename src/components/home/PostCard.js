@@ -11,8 +11,14 @@ class PostCard extends Component{
         return `${date.getDate()} / ${date.getMonth()} / ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }
 
+    handleSetSinglePostData = (post) => {
+        console.log("setSinglePost")
+        this.props.setSinglePost(post)
+    }
+
     render(){
         const { postList } = this.props
+        console.log(this.props)
         return (             
                 <div className="card-deck">
                     {postList ? (
@@ -20,7 +26,7 @@ class PostCard extends Component{
                             <div key={ post.id } className="card">
                                 <div className="card-body">
                                     <h4 className="card-title">
-                                        <Link to={`/post/${post.category}/${post.id}`}>{post.title}</Link>
+                                        <Link onClick={this.handleSetSinglePostData(post)} to={`/post/${post.category}/${post.id}`} >{post.title}</Link>
                                     </h4>
                                     <p className="card-text">
                                         <small className="text-muted">

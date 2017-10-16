@@ -18,7 +18,6 @@ export function requestPosts( data ) {
 
 export function fetchPosts(){
     return function(dispatch){
-        //dispatch(requestPosts())
         return ReadableAPI.getPosts().then( (post) => {
             dispatch(requestPosts(post))
         });
@@ -41,7 +40,16 @@ export function fetchCategories(){
         })
     }
 }
+
 //#endregion categories
+
+export function requestSinglePost( data ){
+    return {
+        type: REQUEST_SINGLE_POST,
+        data
+    }
+}
+
 
 
 export function filterPosts( data ) {
@@ -69,9 +77,3 @@ export function changeSortBy( data ) {
 
 
 //
-export function requestSinglePost( data ){
-    return {
-        type: REQUEST_SINGLE_POST,
-        data
-    }
-}

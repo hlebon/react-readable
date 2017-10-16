@@ -18,7 +18,7 @@ const initialState = {
 
 const initPostCommentState = {
     comments: [],
-    post: {},
+    singlePost: {},
     onEdit: false
 }
 
@@ -48,10 +48,11 @@ function init (state = initialState, action){
 }
 
 function post (state = initPostCommentState, action){
+    console.log(action)
     switch (action.type) {
         case REQUEST_SINGLE_POST:
             return Object.assign( {}, state, {
-                post: action.data
+                singlePost: action.data
             })
         default:
             return state;
