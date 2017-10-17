@@ -30,7 +30,7 @@ class DetailPage extends Component{
                     <div className="card mb-3">
                         <div className="card-header ">
                             <ul className="list-inline">
-                                <li className="btn btn-outline-primary list-inline-item">Edit</li>
+                                <li className="btn btn-outline-primary list-inline-item">Edit</lasdasdi>
                                 <li className="btn btn-outline-secondary list-inline-item">Delete</li>
                             </ul>
                         </div>
@@ -46,7 +46,7 @@ class DetailPage extends Component{
                             <p className="card-text">{post.body}</p>
                         </div>
                     </div>
-                    <div>
+                    <div className="m-5">
                         <h4>Write a response</h4>
                         <form>
                             <div className="form-group">
@@ -57,6 +57,9 @@ class DetailPage extends Component{
                                 <label>Comment</label>
                                 <textarea className="form-control"></textarea>
                             </div>
+                            <button className="btn btn-outline-success">
+                                Comment
+                            </button>
                         </form>
                     </div>
                     <div>
