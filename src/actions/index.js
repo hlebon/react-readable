@@ -43,6 +43,16 @@ export function fetchCategories(){
 
 //#endregion categories
 
+export function fetchSinglePost( data ){
+    console.log(data);
+    return function(dispatch){
+        return ReadableAPI.getPostsDetails(data).then( ( data ) =>{
+            console.log(data);
+            dispatch(requestSinglePost(data))
+        })
+    }
+}
+
 export function requestSinglePost( data ){
     return {
         type: REQUEST_SINGLE_POST,

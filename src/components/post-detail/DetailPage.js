@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import sortBy from 'sort-by'
 import * as ReadableAPI from '../utils/ReadableAPI'
+import { connect } from 'react-redux'
+import { fetchSinglePost } from '../../actions'
 
 class DetailPage extends Component{
     state = {
@@ -9,14 +11,7 @@ class DetailPage extends Component{
     }
 
     componentDidMount(){
-        ReadableAPI.getPostsDetails(this.props.postId).then( (value) => {
-            this.setState( { post: value } )
-        })
-
-        ReadableAPI.getCommentByPost(this.props.postId).then( (value) => {
-            console.log(value)
-            this.setState( { commentList: value } )
-        })
+        this.props.setSinglePost(this.props.postId)
     }
 
     castDate = (unformatt) => {
@@ -25,8 +20,8 @@ class DetailPage extends Component{
     }
 
     render(){
-
-        const post = this.state.post;
+        console.log(this.props)
+        const post = this.props.post;
         const comments = this.state.commentList;
         comments.sort(sortBy(`${this.state.filterBy}`));
 
@@ -87,4 +82,17 @@ class DetailPage extends Component{
     }
 }
 
-export default DetailPage
+function mapStateToProps ( state ) {
+    console.log(state)
+    return { 
+        post: state.post.singlePost,
+    }
+}
+
+function mapDispatchToProps ( dispatch ) {
+    return {
+       setSinglePost: (data) => dispatch((fetchSinglePost(data)))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailPage)
