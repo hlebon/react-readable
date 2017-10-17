@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import sortBy from 'sort-by'
 import * as ReadableAPI from '../utils/ReadableAPI'
 import { connect } from 'react-redux'
-import { fetchSinglePost } from '../../actions'
+import { fetchSinglePost, fetchComments } from '../../actions'
 
 class DetailPage extends Component{
     state = {
@@ -12,6 +12,7 @@ class DetailPage extends Component{
 
     componentDidMount(){
         this.props.setSinglePost(this.props.postId)
+        this.props.fetchComments(this.props.postId)
     }
 
     castDate = (unformatt) => {
@@ -20,9 +21,7 @@ class DetailPage extends Component{
     }
 
     render(){
-        console.log(this.props)
-        const post = this.props.post;
-        const comments = this.state.commentList;
+        const { post, comments } = this.props;
         comments.sort(sortBy(`${this.state.filterBy}`));
 
         return (
@@ -61,7 +60,7 @@ class DetailPage extends Component{
                     </div>
                     <div className="list-group">
                         {comments.map((comment)=> (
-                            <div className="mt-2 list-group-item list-group-item-action flex-column align-items-start">
+                            <div key={comment.id} className="mt-2 list-group-item list-group-item-action flex-column align-items-start">
                                 <div className="d-flex w-100 justify-content-between">
                                     <h6 className="mb-1">{comment.author}</h6>
                                     <small>{comment.voteScore}</small>
@@ -86,12 +85,14 @@ function mapStateToProps ( state ) {
     console.log(state)
     return { 
         post: state.post.singlePost,
+        comments: state.post.comments
     }
 }
 
 function mapDispatchToProps ( dispatch ) {
     return {
-       setSinglePost: (data) => dispatch((fetchSinglePost(data)))
+       setSinglePost: (data) => dispatch((fetchSinglePost(data))),
+       fetchComments: (data) => dispatch((fetchComments(data)))
     }
 }
 

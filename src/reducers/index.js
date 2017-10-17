@@ -3,6 +3,7 @@ import {
     REQUEST_SINGLE_POST, 
     REQUEST_POSTS,
     REQUEST_CATEGORY, 
+    REQUEST_COMMENTS,
     CHANGE_VOTE, 
     SORT_POST,
     FILTER_POSTS
@@ -53,6 +54,10 @@ function post (state = initPostCommentState, action){
         case REQUEST_SINGLE_POST:
             return Object.assign( {}, state, {
                 singlePost: action.data
+            })
+        case REQUEST_COMMENTS:
+            return Object.assign( {}, state, {
+                comments: action.data
             })
         default:
             return state;

@@ -7,6 +7,7 @@ export const REQUEST_CATEGORY = "REQUEST_CATEGORY"
 export const CHANGE_VOTE = "CHANGE_VOTE"
 export const SORT_BY = "SORT_BY"
 export const FILTER_POSTS = "FILTER_POSTS"
+export const REQUEST_COMMENTS = "REQUEST_COMMENTS"
 
 //#region request-posts
 export function requestPosts( data ) {
@@ -44,10 +45,8 @@ export function fetchCategories(){
 //#endregion categories
 
 export function fetchSinglePost( data ){
-    console.log(data);
     return function(dispatch){
         return ReadableAPI.getPostsDetails(data).then( ( data ) =>{
-            console.log(data);
             dispatch(requestSinglePost(data))
         })
     }
@@ -59,6 +58,23 @@ export function requestSinglePost( data ){
         data
     }
 }
+
+export function fetchComments( data ){
+    return function(dispatch){
+        return ReadableAPI.getCommentByPost(data).then((data)=>{
+            dispatch(requestComments(data))
+        })
+    }
+}
+
+export function requestComments( data ){
+    return {
+        type: REQUEST_COMMENTS,
+        data
+    }
+}
+
+
 
 
 
