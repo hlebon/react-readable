@@ -11,7 +11,6 @@ import { requestSinglePost } from '../../actions'
 
 class PostList extends Component{
     state = {
-        postItems: [],
         filterBy: '-voteScore'
     }
 
@@ -30,6 +29,12 @@ class PostList extends Component{
             this.props.changeVote(this.state.postItems)
         });
     }*/
+
+    onChangeSort = (data) => {
+        this.setState({
+            filterBy: data
+        })
+    }
 
 
     render(){
@@ -51,7 +56,7 @@ class PostList extends Component{
         return(
             <div className="row">
                 <div className="col-lg-2">
-                    <NavControl/>    
+                    <NavControl onChangeSort={this.onChangeSort}/>    
                 </div>
                 <div className="col-lg-8">
                     <PostCard setSinglePost={this.props.setSinglePost} postList={postList}/>

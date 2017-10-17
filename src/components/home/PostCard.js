@@ -11,14 +11,8 @@ class PostCard extends Component{
         return `${date.getDate()} / ${date.getMonth()} / ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }
 
-    handleSetSinglePostData = (post) => {
-        console.log("setSinglePost")
-        this.props.setSinglePost(post)
-    }
-
     render(){
         const { postList } = this.props
-        console.log(this.props)
         return (             
                 <div className="card-deck">
                     {postList ? (
