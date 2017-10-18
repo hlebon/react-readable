@@ -38,11 +38,6 @@ function init (state = initialState, action){
             return Object.assign( {}, state, {
                 category: action.data
             })
-        
-        case CHANGE_VOTE:
-            return Object.assign( {}, state,  {
-                postItems: action.data
-            })
         default:
             return state
     }

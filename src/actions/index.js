@@ -74,6 +74,15 @@ export function requestComments( data ){
     }
 }
 
+export function changeVote( postId, score ) {
+    return function(dispatch){
+        return ReadableAPI.votePost(postId, score).then( (postUpdated) => {
+            console.log(postUpdated);
+            dispatch(requestSinglePost(postUpdated))
+        })
+    }
+}
+
 
 
 
@@ -81,15 +90,6 @@ export function requestComments( data ){
 export function filterPosts( data ) {
     return {
         type: FILTER_POSTS,
-        data
-    }
-}
-
-
-
-export function changeVote( data ) {
-    return {
-        type: CHANGE_VOTE,
         data
     }
 }

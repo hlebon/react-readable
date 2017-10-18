@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import sortBy from 'sort-by'
 import * as ReadableAPI from '../utils/ReadableAPI'
 import { connect } from 'react-redux'
-import { fetchSinglePost, fetchComments } from '../../actions'
+import { fetchSinglePost, fetchComments, changeVote } from '../../actions'
 
 class DetailPage extends Component{
     state = {
@@ -15,9 +15,14 @@ class DetailPage extends Component{
         this.props.fetchComments(this.props.postId)
     }
 
+    handleVote = (post, score) => {
+        console.log(post.id, score)
+        this.props.changeVote(post.id, score)
+    }
+
     castDate = (unformatt) => {
         const date = new Date(unformatt);
-        return `${date.getDate()} / ${date.getMonth()} / ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }
 
     render(){
@@ -30,20 +35,26 @@ class DetailPage extends Component{
                     <div className="card mb-3">
                         <div className="card-header ">
                             <ul className="list-inline">
-                                <li className="btn btn-outline-primary list-inline-item">Edit</lasdasdi>
+                                <li className="btn btn-outline-primary list-inline-item">Edit</li>
                                 <li className="btn btn-outline-secondary list-inline-item">Delete</li>
                             </ul>
                         </div>
                         <div className="card-body">
-                            <div className="text-center">
-                                <h4 className="card-title">{post.title}</h4>
-                                    <div className="card-subtitle mb-2 text-muted">
-                                        <div className="">autor: <span>{post.author}</span></div>
-                                        <div className="">date: <span>{this.castDate(post.timestamp)}</span></div>
-                                        <div className="">vote: <span>{post.voteScore}</span></div>
-                                    </div>
+                            <div className="p-3">
+                                <h4 className="text-center card-title">{post.title}</h4>
+                                <div className="list-inline card-subtitle mb-2 text-muted">
+                                    <div className="list-inline-item">by: <span>{post.author}</span></div>
+                                    <div className="list-inline-item">date: <span>{this.castDate(post.timestamp)}</span></div>
+                                    <div className="list-inline-item float-right">vote: <span>{post.voteScore}</span></div>
+                                </div>
                             </div>
                             <p className="card-text">{post.body}</p>
+                        </div>
+                        <div className="card-footer">
+                            <div className="list-inline float-right">
+                                <button onClick={() => this.handleVote(post, "upVote")} className="btn btn-secondary list-inline-item">Up</button>
+                                <button onClick={() => this.handleVote(post, "downVote")} className="btn btn-secondary list-inline-item">Down</button>
+                            </div>
                         </div>
                     </div>
                     <div className="m-5">
@@ -100,8 +111,9 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
     return {
-       setSinglePost: (data) => dispatch((fetchSinglePost(data))),
-       fetchComments: (data) => dispatch((fetchComments(data)))
+        changeVote: (id, score) => dispatch((changeVote(id, score))),
+        setSinglePost: (data) => dispatch((fetchSinglePost(data))),
+        fetchComments: (data) => dispatch((fetchComments(data)))
     }
 }
 

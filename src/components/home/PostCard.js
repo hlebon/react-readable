@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 class PostCard extends Component{
-    handleVote = (post, vote) => {
-        this.props.handleVote(post, vote)
-    }
-
     castDate = (unformatt) => {
         const date = new Date(unformatt);
         return `${date.getDate()} / ${date.getMonth()} / ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
@@ -30,10 +26,6 @@ class PostCard extends Component{
                                     <p className="card-text">{post.body}</p>
                                 </div>
                                 <div className="card-footer ">
-                                    <div className="float-left">
-                                        <button onClick={() => this.handleVote(post, "upVote")} type="button" className="btn btn-secondary">up</button>
-                                        <button onClick={() => this.handleVote(post, "downVote")} type="button" className="btn btn-primary">down</button>
-                                    </div>
                                     <div className="float-right">
                                         <span className="badge badge-info">{post.voteScore}</span>
                                     </div>

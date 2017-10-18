@@ -17,8 +17,6 @@ class HomePage extends React.Component {
         filterBy: '-voteScore'
     }
     
-
-
     render(){
         const { category, posts } = this.props
         let postList

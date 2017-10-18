@@ -14,23 +14,8 @@ class PostList extends Component{
         filterBy: '-voteScore'
     }
 
-    /*
-    handleVote = (post, score) => {
-        ReadableAPI.votePost(post.id, score).then( (postUpdated) => {
-            const postItem = this.state.postItems;
-            const postPosition = postItem.indexOf(post)
-
-            postItem.splice(postPosition, 1)
-            postItem.splice(postPosition, 0, postUpdated)
-
-            this.setState({
-                postItems: postItem
-            });
-            this.props.changeVote(this.state.postItems)
-        });
-    }*/
-
     onChangeSort = (data) => {
+        console.log(data);
         this.setState({
             filterBy: data
         })
@@ -79,7 +64,6 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
     return {
-       // changeVote: (data) => dispatch((changeVote(data))),
        setSinglePost: (data) => dispatch((requestSinglePost(data)))
     }
 }
