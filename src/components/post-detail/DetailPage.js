@@ -2,13 +2,9 @@ import React, { Component } from 'react'
 import sortBy from 'sort-by'
 import * as ReadableAPI from '../utils/ReadableAPI'
 import { connect } from 'react-redux'
-import { fetchSinglePost, fetchComments, changeVote } from '../../actions'
+import { fetchSinglePost, fetchComments, changeVote, voteAComment } from '../../actions'
 
 class DetailPage extends Component{
-    state = {
-        post : {},
-        commentList: []
-    }
 
     componentDidMount(){
         this.props.setSinglePost(this.props.postId)
@@ -20,19 +16,26 @@ class DetailPage extends Component{
         this.props.changeVote(post.id, score)
     }
 
+    handleVoteComment = (comment, score) => {
+        const comments = this.props.comments;
+        console.log(comments);
+        this.props.voteAcomment(comment, score, comments)
+    }
+
     castDate = (unformatt) => {
         const date = new Date(unformatt);
         return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }
 
     render(){
+        console.log(this.props);
         const { post, comments } = this.props;
         comments.sort(sortBy("-voteScore"));
 
         return (
             <div className="d-flex justify-content-center">
                 <div className="col-lg-8">
-                    <div className="card mb-3">
+                    <div className="card">
                         <div className="card-header ">
                             <ul className="list-inline">
                                 <li className="btn btn-outline-primary list-inline-item">Edit</li>
@@ -57,7 +60,7 @@ class DetailPage extends Component{
                             </div>
                         </div>
                     </div>
-                    <div className="m-5">
+                    <div className="mb-5 mt-5">
                         <h4>Write a response</h4>
                         <form>
                             <div className="form-group">
@@ -73,24 +76,30 @@ class DetailPage extends Component{
                             </button>
                         </form>
                     </div>
-                    <div>
+                    <div className="mb-5">
                         <div>
                             <h4>Comments</h4>
                         </div>
                         <div className="list-group">
                             {comments.map((comment)=> (
                                 <div key={comment.id} className="mt-2 list-group-item list-group-item-action flex-column align-items-start">
-                                    <div className="d-flex w-100 justify-content-between">
+                                    <div className="mb-3 d-flex w-100 justify-content-between">
                                         <h6 className="mb-1">{comment.author}</h6>
-                                        <small>{comment.voteScore}</small>
+                                        <small>{this.castDate(comment.timestamp)}</small>
                                     </div>
                                     <p className="mb-1">{comment.body}</p>
-                                    <small className="float-left">
-                                        {this.castDate(comment.timestamp)}
-                                    </small>
-                                    <small className="float-right">
-                                        <a>Edit</a> | <a>Delete</a>
-                                    </small>
+                                    <div className="text-muted mt-3 d-flex w-100 justify-content-between">
+                                        <small>
+                                            score: {comment.voteScore}
+                                        </small>
+                                        <small>
+                                            <button onClick={() => this.handleVoteComment(comment, "upVote")} className="btn btn-primary btn-sm">up</button>
+                                            <button onClick={() => this.handleVoteComment(comment, "downVote")} className="btn btn-primary btn-sm">down</button>
+                                        </small>
+                                        <small>
+                                            <a>Edit</a> | <a>Delete</a>
+                                        </small>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -102,7 +111,7 @@ class DetailPage extends Component{
 }
 
 function mapStateToProps ( state ) {
-    console.log(state)
+    console.log(state);
     return { 
         post: state.post.singlePost,
         comments: state.post.comments
@@ -113,7 +122,8 @@ function mapDispatchToProps ( dispatch ) {
     return {
         changeVote: (id, score) => dispatch((changeVote(id, score))),
         setSinglePost: (data) => dispatch((fetchSinglePost(data))),
-        fetchComments: (data) => dispatch((fetchComments(data)))
+        fetchComments: (data) => dispatch((fetchComments(data))),
+        voteAcomment: (id, score, comments) => dispatch((voteAComment(id, score, comments)))
     }
 }
 

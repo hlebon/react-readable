@@ -100,6 +100,16 @@ fetch(`${api}/comments/${id}`, { headers })
   .then(data => data);
 
 //falta: POST /comments/:id
+export const voteAComment = (id, vote) => 
+fetch(`${api}/comments/${id}`, { 
+  method: 'POST',
+  headers: {
+    ...headers,
+    'Content-Type':'application/json'
+  },
+  body: JSON.stringify(vote = {option: vote})
+}).then( res => res.json())
+  .then(data => data);
 
 //Editar el detalle de un comentario
 export const editComment = (id, body) =>

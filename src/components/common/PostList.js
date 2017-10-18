@@ -5,7 +5,7 @@ import sortBy from "sort-by";
 import PostCard from '../home/PostCard'
 import Categories from '../common/Categories'
 import NavControl from '../common/NavControl'
-import { requestSinglePost } from '../../actions'
+import { fetchSinglePost, fetchComments } from '../../actions'
 
 
 
@@ -15,7 +15,6 @@ class PostList extends Component{
     }
 
     onChangeSort = (data) => {
-        console.log(data);
         this.setState({
             filterBy: data
         })
@@ -24,7 +23,6 @@ class PostList extends Component{
 
     render(){
         const { category, posts, categories } = this.props
-        console.log(this.props);
 
         let postList
         if(typeof(category) !== 'undefined'){
@@ -44,7 +42,7 @@ class PostList extends Component{
                     <NavControl onChangeSort={this.onChangeSort}/>    
                 </div>
                 <div className="col-lg-8">
-                    <PostCard setSinglePost={this.props.setSinglePost} postList={postList}/>
+                    <PostCard postList={postList}/>
                 </div>
                 <div className="col-lg-2">
                     <Categories categories={categories}/>
@@ -55,17 +53,9 @@ class PostList extends Component{
 }
 
 function mapStateToProps ( state ) {
-    console.log(state)
     return { 
         posts: state.init.postItems,
         categories: state.init.categories
     }
 }
-
-function mapDispatchToProps ( dispatch ) {
-    return {
-       setSinglePost: (data) => dispatch((requestSinglePost(data)))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostList)
+export default connect(mapStateToProps)(PostList)

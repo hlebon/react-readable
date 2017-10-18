@@ -13,7 +13,6 @@ import { Link } from 'react-router-dom'
 //#region class definition
 class HomePage extends React.Component {
     state = {
-        postItems: [],
         filterBy: '-voteScore'
     }
     
@@ -51,21 +50,12 @@ class HomePage extends React.Component {
 
 //#region redux-to-props
 function mapStateToProps ( state ) {
-    console.log(state)
     return { 
         posts: state.init.postItems,
         categories: state.categories
     }
 }
 
-function mapDispatchToProps ( dispatch ) {
-    return {
-        changeVote: (data) => dispatch((changeVote(data))),
-        callGetPost: (data) => dispatch((requestPosts(data))),
-        callGetCategories: (data) => dispatch((requestCategories(data)))
-    }
-}
-
 //#endregion redux-to-props
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
+export default connect(mapStateToProps)(HomePage)

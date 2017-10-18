@@ -3,6 +3,7 @@ import * as ReadableAPI from '../components/utils/ReadableAPI'
 export const REQUEST_POSTS = "REQUEST_POSTS"
 export const RECEIVE_POSTS = "RECEIVE_POST"
 export const REQUEST_SINGLE_POST = "REQUEST_SINGLE_POST"
+export const REQUEST_SINGLE_COMMENT = "REQUEST_SINGLE_COMMENT"
 export const REQUEST_CATEGORY = "REQUEST_CATEGORY"
 export const CHANGE_VOTE = "CHANGE_VOTE"
 export const SORT_BY = "SORT_BY"
@@ -77,9 +78,24 @@ export function requestComments( data ){
 export function changeVote( postId, score ) {
     return function(dispatch){
         return ReadableAPI.votePost(postId, score).then( (postUpdated) => {
-            console.log(postUpdated);
             dispatch(requestSinglePost(postUpdated))
         })
+    }
+}
+
+export function voteAComment(comment, score, comments){
+    return function(dispatch){
+        return ReadableAPI.voteAComment(comment.id, score).then( (commentUpdated) => {
+            comments.splice(comments.indexOf(comment), 1, commentUpdated)
+            dispatch(requestSingleComment(comments))
+        })
+    }
+}
+
+export function requestSingleComment(comments){
+    return {
+        type: REQUEST_SINGLE_COMMENT,
+        comments
     }
 }
 

@@ -6,12 +6,12 @@ import {
     REQUEST_COMMENTS,
     CHANGE_VOTE, 
     SORT_POST,
-    FILTER_POSTS
+    FILTER_POSTS,
+    REQUEST_SINGLE_COMMENT
 } from '../actions'
 
 
 const initialState = {
-    orderBy: "-voteScore",
     postItems: [],
     categories: [],
     category: ""
@@ -24,7 +24,6 @@ const initPostCommentState = {
 }
 
 function init (state = initialState, action){
-    console.log(action)
     switch (action.type) {
         case REQUEST_POSTS:
             return Object.assign({}, state, {
@@ -44,7 +43,6 @@ function init (state = initialState, action){
 }
 
 function post (state = initPostCommentState, action){
-    console.log(action)
     switch (action.type) {
         case REQUEST_SINGLE_POST:
             return Object.assign( {}, state, {
@@ -53,6 +51,10 @@ function post (state = initPostCommentState, action){
         case REQUEST_COMMENTS:
             return Object.assign( {}, state, {
                 comments: action.data
+            })
+        case REQUEST_SINGLE_COMMENT:
+            return Object.assign( {}, state, {
+                comments: action.comments
             })
         default:
             return state;
