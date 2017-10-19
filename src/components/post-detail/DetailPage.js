@@ -18,7 +18,6 @@ class DetailPage extends Component{
 
     handleVoteComment = (comment, score) => {
         const comments = this.props.comments;
-        console.log(comments);
         this.props.voteAcomment(comment, score, comments)
     }
 
@@ -111,7 +110,6 @@ class DetailPage extends Component{
 }
 
 function mapStateToProps ( state ) {
-    console.log(state);
     return { 
         post: state.post.singlePost,
         comments: state.post.comments

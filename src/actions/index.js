@@ -86,7 +86,9 @@ export function changeVote( postId, score ) {
 export function voteAComment(comment, score, comments){
     return function(dispatch){
         return ReadableAPI.voteAComment(comment.id, score).then( (commentUpdated) => {
-            comments.splice(comments.indexOf(comment), 1, commentUpdated)
+            const position = comments.indexOf(comment)
+            comments.splice(position, 1)
+            comments.splice(position, 0, commentUpdated)
             dispatch(requestSingleComment(comments))
         })
     }
