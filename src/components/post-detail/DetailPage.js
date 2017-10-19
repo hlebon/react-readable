@@ -29,6 +29,7 @@ class DetailPage extends Component{
     render(){
         console.log(this.props);
         const { post, comments } = this.props;
+        const commentsCount = comments.length;
         comments.sort(sortBy("-voteScore"));
 
         return (
@@ -48,6 +49,7 @@ class DetailPage extends Component{
                                     <div className="list-inline-item">by: <span>{post.author}</span></div>
                                     <div className="list-inline-item">date: <span>{this.castDate(post.timestamp)}</span></div>
                                     <div className="list-inline-item float-right">vote: <span>{post.voteScore}</span></div>
+                                    <div className="list-inline-item float-right">comments: <span>{commentsCount}</span></div>
                                 </div>
                             </div>
                             <p className="card-text">{post.body}</p>
