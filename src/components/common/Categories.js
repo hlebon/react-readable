@@ -5,18 +5,23 @@ class Categories extends Component{
     render(){
 
         const { categories } = this.props;
-        console.log(this.props);
         return (
             <div>
-                <h3>Categories</h3>
-                {categories && 
-                    <div className="list-group">
-                        {this.props.categories.map( ( category ) => (
-                            <Link to={`/category/${category.path}`}  key={category.name} className="list-group-item list-group-item-action">
+                {categories.length > 0 ? (
+                    <div className="list-inline">
+                        <h5>Categories</h5>
+                        { this.props.categories.map( ( category ) => (
+                            <Link to={`/category/${category.path}`}  key={category.name} className="text-white p-2 m-1 list-inline-item border bg-secondary rounded">
                             {category.name}</Link>
                         ))}
+                        <Link to="/"  key="all" className="text-white p-1 m-1 list-inline-item border bg-secondary rounded">
+                            All</Link>
                     </div>
-                }
+                ) : (
+                    <div className="list-group">
+                        
+                    </div>
+                )}
             </div>
         )
     }

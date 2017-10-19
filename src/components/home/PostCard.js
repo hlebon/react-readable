@@ -8,10 +8,12 @@ class PostCard extends Component{
     }
 
     render(){
+
         const { postList } = this.props
+        console.log(postList);
         return (             
                 <div className="card-deck">
-                    {postList ? (
+                    {postList.length > 0 ? (
                         postList.map( ( post ) => (
                             <div key={ post.id } className="card">
                                 <div className="card-body">

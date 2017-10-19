@@ -23,6 +23,7 @@ class PostList extends Component{
 
     render(){
         const { category, posts, categories } = this.props
+        console.log(this.props);
 
         let postList
         if(typeof(category) !== 'undefined'){

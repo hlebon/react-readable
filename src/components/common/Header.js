@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 class Header extends Component{
     render(){
         return (
-            <div className="bg-light">
-                <nav className="container navbar navbar-light">
+            <div className="bg-primary">
+                <nav className="container navbar navbar-dark">
                     <Link to="/" className="navbar-brand">React Blog</Link>
                 </nav>
             </div>

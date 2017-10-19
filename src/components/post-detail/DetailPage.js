@@ -34,8 +34,8 @@ class DetailPage extends Component{
 
         return (
             <div className="d-flex justify-content-center">
-                <div className="col-lg-8">
-                    <div className="card">
+                <div className="col-lg-10">
+                    <div className="border-0 card">
                         <div className="card-header ">
                             <ul className="list-inline">
                                 <li className="btn btn-outline-primary list-inline-item">Edit</li>
@@ -44,20 +44,20 @@ class DetailPage extends Component{
                         </div>
                         <div className="card-body">
                             <div className="p-3">
-                                <h4 className="text-center card-title">{post.title}</h4>
+                                <h2 className="text-center card-title"><strong>{post.title}</strong></h2>
                                 <div className="list-inline card-subtitle mb-2 text-muted">
-                                    <div className="list-inline-item">by: <span>{post.author}</span></div>
-                                    <div className="list-inline-item">date: <span>{this.castDate(post.timestamp)}</span></div>
-                                    <div className="list-inline-item float-right">vote: <span>{post.voteScore}</span></div>
-                                    <div className="list-inline-item float-right">comments: <span>{commentsCount}</span></div>
+                                    <div className="mr-2 list-inline-item font-italic">by: <span className="badge badge-info">{post.author}</span></div>
+                                    <div className="mr-2 list-inline-item font-italic">vote: <span className="badge badge-info">{post.voteScore}</span></div>
+                                    <div className="list-inline-item font-italic">comments: <span className="badge badge-info">{commentsCount}</span></div>
+                                    <div className="list-inline-item font-italic float-right">date: <span>{this.castDate(post.timestamp)}</span></div>
                                 </div>
                             </div>
                             <p className="card-text">{post.body}</p>
                         </div>
                         <div className="card-footer">
                             <div className="list-inline float-right">
-                                <button onClick={() => this.handleVote(post, "upVote")} className="btn btn-secondary list-inline-item">Up</button>
-                                <button onClick={() => this.handleVote(post, "downVote")} className="btn btn-secondary list-inline-item">Down</button>
+                                <button onClick={() => this.handleVote(post, "upVote")} className="btn btn-secondary btn-sm list-inline-item">Up</button>
+                                <button onClick={() => this.handleVote(post, "downVote")} className="btn btn-secondary btn-sm list-inline-item">Down</button>
                             </div>
                         </div>
                     </div>
@@ -77,34 +77,29 @@ class DetailPage extends Component{
                             </button>
                         </form>
                     </div>
-                    <div className="mb-5">
-                        <div>
-                            <h4>Comments</h4>
-                        </div>
-                        <div className="list-group">
-                            {comments.map((comment)=> (
-                                <div key={comment.id} className="mt-2 list-group-item list-group-item-action flex-column align-items-start">
-                                    <div className="mb-3 d-flex w-100 justify-content-between">
-                                        <h6 className="mb-1">{comment.author}</h6>
-                                        <small>{this.castDate(comment.timestamp)}</small>
+                    {comments.length > 0 && (
+                        <div className="mb-5">
+                            <div>
+                                <h4>Comments</h4>
+                            </div>
+                            <div className="list-group">
+                                {comments.map((comment)=> (
+                                    <div key={comment.id} className="mt-2 list-group-item list-group-item flex-column align-items-start">
+                                        <div className="mb-3 d-flex w-100 justify-content-between">
+                                            <h6 className="mb-1">{comment.author}</h6>
+                                            <small>{this.castDate(comment.timestamp)}</small>
+                                        </div>
+                                        <p className="mb-1">{comment.body}</p>
+                                        <div className="mt-3 list-inline card-subtitle mb-2 text-muted">
+                                            <div className="mr-2 list-inline-item font-italic">score: <span className="badge badge-info">{comment.voteScore}</span></div>
+                                            <button onClick={() => this.handleVoteComment(comment, "upVote")} className="float-right mr-2 list-inline-item btn btn-primary btn-sm">up</button>
+                                            <button onClick={() => this.handleVoteComment(comment, "downVote")} className="float-right mr-2 list-inline-item btn btn-primary btn-sm">down</button>
+                                        </div>
                                     </div>
-                                    <p className="mb-1">{comment.body}</p>
-                                    <div className="text-muted mt-3 d-flex w-100 justify-content-between">
-                                        <small>
-                                            score: {comment.voteScore}
-                                        </small>
-                                        <small>
-                                            <button onClick={() => this.handleVoteComment(comment, "upVote")} className="btn btn-primary btn-sm">up</button>
-                                            <button onClick={() => this.handleVoteComment(comment, "downVote")} className="btn btn-primary btn-sm">down</button>
-                                        </small>
-                                        <small>
-                                            <a>Edit</a> | <a>Delete</a>
-                                        </small>
-                                    </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         )

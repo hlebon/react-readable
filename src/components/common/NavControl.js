@@ -16,10 +16,9 @@ class NavControl extends Component{
         return(
             <div className="raw bg-light d-flex justify-content-center">
                 <div className="col">
-                    <h3>Control</h3>
+                    <h5>Control</h5>
                     <div>
                         <div className="form-group">
-                            <label>Order By</label>
                             <select value={this.state.filterBy} className="custom-select" onChange={ ( event ) => this.handleChange(event) } >
                                 <option>Order by...</option>
                                 <option value="voteScore">More votes</option>
