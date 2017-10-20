@@ -56,8 +56,8 @@ class DetailPage extends Component{
                         </div>
                         <div className="card-footer">
                             <div className="list-inline float-right">
-                                <button onClick={() => this.handleVote(post, "upVote")} className="btn btn-secondary btn-sm list-inline-item">Up</button>
-                                <button onClick={() => this.handleVote(post, "downVote")} className="btn btn-secondary btn-sm list-inline-item">Down</button>
+                                <button onClick={() => this.handleVote(post, "upVote")} className="downvote btn btn-outline-secondary btn-lg list-inline-item"></button>
+                                <button onClick={() => this.handleVote(post, "downVote")} className="upvote btn btn-outline-secondary btn-lg list-inline-item"></button>
                             </div>
                         </div>
                     </div>
@@ -92,8 +92,12 @@ class DetailPage extends Component{
                                         <p className="mb-1">{comment.body}</p>
                                         <div className="mt-3 list-inline card-subtitle mb-2 text-muted">
                                             <div className="mr-2 list-inline-item font-italic">score: <span className="badge badge-info">{comment.voteScore}</span></div>
-                                            <button onClick={() => this.handleVoteComment(comment, "upVote")} className="float-right mr-2 list-inline-item btn btn-primary btn-sm">up</button>
-                                            <button onClick={() => this.handleVoteComment(comment, "downVote")} className="float-right mr-2 list-inline-item btn btn-primary btn-sm">down</button>
+                                            <div className="list-inline list-inline-item float-right">
+                                                <span className="btn-edit mr-2 list-inline-item">Edit</span>
+                                                <span className="btn-delete mr-2 list-inline-item">Delete</span>
+                                            </div>
+                                            <button onClick={() => this.handleVoteComment(comment, "upVote")} className="upvote mr-2 list-inline-item btn btn-outline-secondary btn-lg"></button>
+                                            <button onClick={() => this.handleVoteComment(comment, "downVote")} className="downvote mr-2 list-inline-item btn btn-outline-secondary btn-lg"></button>
                                         </div>
                                     </div>
                                 ))}

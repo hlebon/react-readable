@@ -15,3 +15,35 @@ a:hover{
 button{
   border-radius: 25px !important;
 }
+
+.btn-create{
+  background-image: url("./img/plusIcon.svg");
+  background-size: 100% 100%;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  z-index: 99;
+  border-radius: 50px;
+}
+
+.downvote, .upvote{
+  background-size: 100% 100%;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.downvote{
+  background-image: url("./img/arrow-down.svg");
+}
+
+.upvote{
+  background-image: url("./img/arrow-up.svg");
+}
+
+.btn-edit, .btn-delete{
+  cursor: pointer;
+}

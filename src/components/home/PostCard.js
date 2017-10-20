@@ -20,16 +20,25 @@ class PostCard extends Component{
                                     <h4 className="card-title">
                                         <Link to={`/post/${post.category}/${post.id}`} >{post.title}</Link>
                                     </h4>
-                                    <p className="card-text">
-                                        <small className="text-muted">
-                                            {this.castDate(post.timestamp)}
-                                        </small>
-                                    </p>
+                                    <div className="card-text">
+                                        <div className="list-inline card-subtitle mb-2 text-muted">
+                                            <div className="mr-2 list-inline-item font-italic">date: <small className="">{this.castDate(post.timestamp)}</small></div>
+                                            <div className="mr-2 list-inline-item font-italic">by: <small className="">{post.author}</small></div>
+                                        </div>
+                                    </div>
                                     <p className="card-text">{post.body}</p>
                                 </div>
-                                <div className="card-footer ">
-                                    <div className="float-right">
-                                        <span className="badge badge-info">{post.voteScore}</span>
+                                <div className="card-footer text-muted list-inline">
+                                    <div className="list-inline-item">
+                                        <span className="badge badge-info">vote: {post.voteScore}</span>
+                                    </div>
+                                    <div className="list-inline list-inline-item">
+                                        <span className="downvote mr-2 list-inline-item"></span>
+                                        <span className="upvote mr-2 list-inline-item"></span>
+                                    </div>
+                                    <div className="list-inline list-inline-item float-right">
+                                        <span className="btn-edit mr-2 list-inline-item">Edit</span>
+                                        <span className="btn-delete mr-2 list-inline-item">Delete</span>
                                     </div>
                                 </div>
                             </div>
