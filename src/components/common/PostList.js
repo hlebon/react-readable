@@ -5,13 +5,20 @@ import sortBy from "sort-by";
 import PostCard from '../home/PostCard'
 import Categories from '../common/Categories'
 import NavControl from '../common/NavControl'
-import { fetchSinglePost, fetchComments } from '../../actions'
+import { changeVoteOnPostList } from '../../actions'
 
 
 
 class PostList extends Component{
     state = {
         filterBy: '-voteScore'
+    }
+
+    onHandleVote = (post, score) => {
+        let posts = this.props.posts;
+        const index = posts.indexOf(post)
+        posts.splice(index,1)
+        this.props.changeVote(post.id, score, posts, index)
     }
 
     onChangeSort = (data) => {
@@ -43,7 +50,7 @@ class PostList extends Component{
                     <NavControl onChangeSort={this.onChangeSort}/>    
                 </div>
                 <div className="col-lg-8">
-                    <PostCard postList={postList}/>
+                    <PostCard postList={postList} onHandleVote={this.onHandleVote}/>
                 </div>
                 <div className="col-lg-2">
                     <Categories categories={categories}/>
@@ -54,9 +61,17 @@ class PostList extends Component{
 }
 
 function mapStateToProps ( state ) {
+    console.log(state)
     return { 
         posts: state.init.postItems,
         categories: state.init.categories
     }
 }
-export default connect(mapStateToProps)(PostList)
+
+function mapDispatchToProps ( dispatch ) {
+    return {
+        changeVote: (id, score, posts, index) => dispatch((changeVoteOnPostList(id, score, posts, index)))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostList)

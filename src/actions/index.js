@@ -20,8 +20,9 @@ export function requestPosts( data ) {
 
 export function fetchPosts(){
     return function(dispatch){
-        return ReadableAPI.getPosts().then( (post) => {
-            dispatch(requestPosts(post))
+        return ReadableAPI.getPosts().then( (posts) => {
+            console.log(posts);
+            dispatch(requestPosts(posts))
         });
     }
 }
@@ -42,9 +43,9 @@ export function fetchCategories(){
         })
     }
 }
-
 //#endregion categories
 
+//#region request-single-post
 export function fetchSinglePost( data ){
     return function(dispatch){
         return ReadableAPI.getPostsDetails(data).then( ( data ) =>{
@@ -59,7 +60,9 @@ export function requestSinglePost( data ){
         data
     }
 }
+//#endregion request-single-post
 
+//#region requestComments
 export function fetchComments( data ){
     return function(dispatch){
         return ReadableAPI.getCommentByPost(data).then((data)=>{
@@ -75,10 +78,23 @@ export function requestComments( data ){
     }
 }
 
+//#endregion requestComments
+
+
 export function changeVote( postId, score ) {
+    console.log(postId, score)
     return function(dispatch){
         return ReadableAPI.votePost(postId, score).then( (postUpdated) => {
             dispatch(requestSinglePost(postUpdated))
+        })
+    }
+}
+
+export function changeVoteOnPostList( postId, score, posts, index ) {
+    return function(dispatch){
+        return ReadableAPI.votePost(postId, score).then( (postUpdated) => {
+            posts.splice(index, 0, postUpdated)
+            dispatch(requestPosts(posts))
         })
     }
 }
