@@ -7,7 +7,8 @@ import {
     CHANGE_VOTE, 
     SORT_POST,
     FILTER_POSTS,
-    REQUEST_SINGLE_COMMENT
+    CHANGE_VOTE_ON_COMMENT,
+    CHANGE_VOTE_ON_POST //
 } from '../actions'
 
 
@@ -24,6 +25,7 @@ const initPostCommentState = {
 }
 
 function init (state = initialState, action){
+    console.log(action)
     switch (action.type) {
         case REQUEST_POSTS:
             return Object.assign({}, state, {
@@ -36,6 +38,15 @@ function init (state = initialState, action){
         case FILTER_POSTS:
             return Object.assign( {}, state, {
                 category: action.data
+            })
+        case CHANGE_VOTE_ON_POST:
+            return Object.assign( {}, state, {
+                postItems : state.postItems.map( (post, index) => {
+                    if(index == action.index){
+                         post.voteScore = action.post.voteScore
+                    }
+                    return post
+                })
             })
         default:
             return state
@@ -52,10 +63,15 @@ function post (state = initPostCommentState, action){
             return Object.assign( {}, state, {
                 comments: action.data
             })
-        case REQUEST_SINGLE_COMMENT:
+        case CHANGE_VOTE_ON_COMMENT:
             return Object.assign( {}, state, {
-                comments: action.comments
+                comments : state.comments.map( (comment, index) => {
+                if(index == action.index){
+                    comment.voteScore = action.comment.voteScore
+                }
+                return comment
             })
+        })
         default:
             return state;
     }

@@ -2,11 +2,10 @@ import React from 'react'
 
 class VoteSection extends React.Component{
     handleVote = (value, score) => {
-        this.props.onHandleVote(value, score)
+        this.props.changeVote(value, score)
     }
 
     render(){
-        console.log(this.props)
         const { value, position } = this.props;
         return (
         <div className={`list-inline-item list-inline ${position}`}>

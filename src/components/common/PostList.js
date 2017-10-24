@@ -15,10 +15,8 @@ class PostList extends Component{
     }
 
     onHandleVote = (post, score) => {
-        let posts = this.props.posts;
-        const index = posts.indexOf(post)
-        posts.splice(index,1)
-        this.props.changeVote(post.id, score, posts, index)
+        const index = this.props.posts.indexOf(post)
+        this.props.changeVote(post.id, score, index)
     }
 
     onChangeSort = (data) => {
@@ -70,7 +68,7 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
     return {
-        changeVote: (id, score, posts, index) => dispatch((changeVoteOnPostList(id, score, posts, index)))
+        changeVote: (id, score, index) => dispatch((changeVoteOnPostList(id, score, index)))
     }
 }
 

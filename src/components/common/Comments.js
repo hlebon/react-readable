@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { voteAComment } from '../../actions'
 import VoteSection from './VoteSection'
 import DeleteEdit from './DeleteEdit'
 
 class Comments extends Component{
     castDate = (date) => {
         this.props.castDate(date)
+    }
+
+    handleVoteComment = (comment, score) =>{
+        this.props.voteAcomment(comment.id, score, this.props.comments.indexOf(comment))
     }
 
     render(){
@@ -23,7 +29,7 @@ class Comments extends Component{
                             </div>
                             <p className="mb-1">{comment.body}</p>
                             <div className="mt-3 list-inline card-subtitle mb-2 text-muted">
-                                <VoteSection  position={""} onHandleVote={this.handleVoteComment} value={comment}/>
+                                <VoteSection  position={""} changeVote={this.handleVoteComment} value={comment}/>
                                 <DeleteEdit position="float-right"/>
                             </div>
                         </div>
@@ -34,4 +40,10 @@ class Comments extends Component{
     }
 }
 
-export default Comments
+function mapDispatchToProps ( dispatch ) {
+    return {
+        voteAcomment: (id, score, comments) => dispatch((voteAComment(id, score, comments)))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Comments)    

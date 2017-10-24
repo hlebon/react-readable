@@ -3,12 +3,13 @@ import * as ReadableAPI from '../components/utils/ReadableAPI'
 export const REQUEST_POSTS = "REQUEST_POSTS"
 export const RECEIVE_POSTS = "RECEIVE_POST"
 export const REQUEST_SINGLE_POST = "REQUEST_SINGLE_POST"
-export const REQUEST_SINGLE_COMMENT = "REQUEST_SINGLE_COMMENT"
+export const CHANGE_VOTE_ON_COMMENT = "CHANGE_VOTE_ON_COMMENT"
 export const REQUEST_CATEGORY = "REQUEST_CATEGORY"
 export const CHANGE_VOTE = "CHANGE_VOTE"
 export const SORT_BY = "SORT_BY"
 export const FILTER_POSTS = "FILTER_POSTS"
 export const REQUEST_COMMENTS = "REQUEST_COMMENTS"
+export const CHANGE_VOTE_ON_POST = "CHANGE_VOTE_ON_POST" // 
 
 //#region request-posts
 export function requestPosts( data ) {
@@ -21,7 +22,6 @@ export function requestPosts( data ) {
 export function fetchPosts(){
     return function(dispatch){
         return ReadableAPI.getPosts().then( (posts) => {
-            console.log(posts);
             dispatch(requestPosts(posts))
         });
     }
@@ -90,34 +90,38 @@ export function changeVote( postId, score ) {
     }
 }
 
-export function changeVoteOnPostList( postId, score, posts, index ) {
+export function changeVoteOnPostList( postId, score, index ) {
     return function(dispatch){
         return ReadableAPI.votePost(postId, score).then( (postUpdated) => {
-            posts.splice(index, 0, postUpdated)
-            dispatch(requestPosts(posts))
+            dispatch(changeVoteOnPost(postUpdated, index))
         })
     }
 }
 
-export function voteAComment(comment, score, comments){
+export function voteAComment(commentId, score, index){
+    console.log(commentId, score, index);
     return function(dispatch){
-        return ReadableAPI.voteAComment(comment.id, score).then( (commentUpdated) => {
-            const position = comments.indexOf(comment)
-            comments.splice(position, 1)
-            comments.splice(position, 0, commentUpdated)
-            dispatch(requestSingleComment(comments))
+        return ReadableAPI.voteAComment(commentId, score).then( (commentUpdated) => {
+            dispatch(changeVoteOnComment(commentUpdated, index))
         })
     }
 }
 
-export function requestSingleComment(comments){
+export function changeVoteOnComment(comment, index){
     return {
-        type: REQUEST_SINGLE_COMMENT,
-        comments
+        type: CHANGE_VOTE_ON_COMMENT,
+        comment,
+        index
     }
 }
 
-
+export function changeVoteOnPost(postUpdated, index){
+    return {
+        type: CHANGE_VOTE_ON_POST,
+        post: postUpdated,
+        index
+    }
+}
 
 
 

@@ -14,6 +14,7 @@ class PostCard extends Component{
     }
 
     onHandleVote = (post, score) => {
+        console.log(post, score)
         this.props.onHandleVote(post, score)
     }
 
@@ -39,7 +40,7 @@ class PostCard extends Component{
                                     <p className="card-text">{post.body}</p>
                                 </div>
                                 <div className="card-footer text-muted list-inline">
-                                    <VoteSection value={post} position={""} onHandleVote={this.onHandleVote}/>
+                                    <VoteSection value={post} position={""} changeVote={this.onHandleVote}/>
                                     <DeleteEdit position="float-right"/>
                                 </div>
                             </div>

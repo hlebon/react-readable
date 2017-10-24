@@ -20,18 +20,12 @@ class DetailPage extends Component{
         this.props.changeVote(post.id, score)
     }
 
-    handleVoteComment = (comment, score) => {
-        const comments = this.props.comments;
-        this.props.voteAcomment(comment, score, comments)
-    }
-
     castDate = (unformatt) => {
         const date = new Date(unformatt);
         return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }
 
     render(){
-        console.log(this.props);
         const { post, comments } = this.props;
         comments.sort(sortBy("-voteScore"));
 
@@ -60,8 +54,7 @@ function mapDispatchToProps ( dispatch ) {
     return {
         changeVote: (id, score) => dispatch((changeVote(id, score))),
         setSinglePost: (data) => dispatch((fetchSinglePost(data))),
-        fetchComments: (data) => dispatch((fetchComments(data))),
-        voteAcomment: (id, score, comments) => dispatch((voteAComment(id, score, comments)))
+        fetchComments: (data) => dispatch((fetchComments(data)))
     }
 }
 
