@@ -34,7 +34,7 @@ class HomePage extends React.Component {
         return (
             <div className="d-flex flex-column">
                 <div className="p-2">
-                    <Link to={{ pathname: "/create", state: {isCreate:true} }} 
+                    <Link to={{ pathname: "/create", state: { title: "Create" } }} 
                         className="btn-create">
                     </Link>
                 </div>

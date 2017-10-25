@@ -8,7 +8,8 @@ import {
     SORT_POST,
     FILTER_POSTS,
     CHANGE_VOTE_ON_COMMENT,
-    CHANGE_VOTE_ON_POST //
+    CHANGE_VOTE_ON_POST,
+    CREATE_POST
 } from '../actions'
 
 
@@ -47,6 +48,10 @@ function init (state = initialState, action){
                     }
                     return post
                 })
+            })
+        case CREATE_POST:
+            return Object.assign( {}, state, {
+                postItems: state.postItems.concat([action.data])
             })
         default:
             return state

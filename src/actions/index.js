@@ -10,6 +10,7 @@ export const SORT_BY = "SORT_BY"
 export const FILTER_POSTS = "FILTER_POSTS"
 export const REQUEST_COMMENTS = "REQUEST_COMMENTS"
 export const CHANGE_VOTE_ON_POST = "CHANGE_VOTE_ON_POST" // 
+export const CREATE_POST = "CREATE_POST"
 
 //#region request-posts
 export function requestPosts( data ) {
@@ -135,6 +136,23 @@ export function filterPosts( data ) {
 export function changeSortBy( data ) {
     return {
         type: SORT_BY,
+        data
+    }
+}
+
+
+
+export function onCreatePost(post){
+    return function(dispatch){
+        return ReadableAPI.createPost(post).then((npost) => {
+            dispatch(createPost(npost))
+        })
+    }
+}
+
+export function createPost( data ){
+    return {
+        type: CREATE_POST,
         data
     }
 }

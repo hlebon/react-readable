@@ -18,8 +18,8 @@ class App extends Component {
             <Route exact path="/category/:category" render={(props)=>(
               <HomePage category={props.match.params.category}/>
             )}/>
-            <Route path="/create" render={() => (
-              <CreatePage/>
+            <Route path="/create" render={(data) => (
+              <CreatePage data={data.location.state} />
             )}/>
         </div>
     )
