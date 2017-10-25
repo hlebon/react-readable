@@ -9,17 +9,15 @@ class App extends Component {
   render() {
     return (
         <div>
-            <Route exact path="/" render={()=>(
-              <HomePage />
-            )}/>
-            <Route path="/post/:category/:post_id" render={(props)=>(
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/:category/:post_id" render={(props)=>(
               <DetailPage postId={props.match.params.post_id}/>
             )}/>
-            <Route exact path="/category/:category" render={(props)=>(
+            <Route exact path="/:category"  render={(props)=>(
               <HomePage category={props.match.params.category}/>
             )}/>
-            <Route path="/create" render={(data) => (
-              <CreatePage data={data.location.state} />
+            <Route exact path="/create" render={() => (
+              <CreatePage/>
             )}/>
         </div>
     )

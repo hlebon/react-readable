@@ -29,7 +29,7 @@ class PostCard extends Component{
                             <div key={ post.id } className="card">
                                 <div className="card-body">
                                     <h4 className="card-title">
-                                        <Link to={`/post/${post.category}/${post.id}`} >{post.title}</Link>
+                                        <Link to={`/${post.category}/${post.id}`} >{post.title}</Link>
                                     </h4>
                                     <div className="card-text">
                                         <div className="list-inline card-subtitle mb-2 text-muted">

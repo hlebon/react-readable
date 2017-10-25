@@ -11,7 +11,7 @@ class Categories extends Component{
                     <div className="list-inline">
                         <h5>Categories</h5>
                         { this.props.categories.map( ( category ) => (
-                            <Link to={`/category/${category.path}`}  key={category.name} className="text-white p-2 m-1 list-inline-item border bg-secondary rounded">
+                            <Link to={`/${category.path}`}  key={category.name} className="text-white p-2 m-1 list-inline-item border bg-secondary rounded">
                             {category.name}</Link>
                         ))}
                         <Link to="/"  key="all" className="text-white p-1 m-1 list-inline-item border bg-secondary rounded">

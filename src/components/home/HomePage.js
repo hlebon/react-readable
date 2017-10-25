@@ -3,10 +3,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { requestPosts, requestCategories, changeVote } from '../../actions'
 import PostList from '../common/PostList'
+import CreatePage from '../create-edit/CreatePage'
 import escapeRegExp from "escape-string-regexp";
 import sortBy from "sort-by";
 import * as ReadableAPI from '../utils/ReadableAPI'
 import { Link } from 'react-router-dom'
+import Modal from 'react-modal'
 
 //#endregion import
 
@@ -17,6 +19,7 @@ class HomePage extends React.Component {
     }
     
     render(){
+        console.log(this.props);
         const { category, posts } = this.props
         let postList
         if(typeof(category) !== 'undefined'){
@@ -34,13 +37,20 @@ class HomePage extends React.Component {
         return (
             <div className="d-flex flex-column">
                 <div className="p-2">
-                    <Link to={{ pathname: "/create", state: { title: "Create" } }} 
-                        className="btn-create">
+                    <Link to="/create" className="btn-create">
                     </Link>
                 </div>
                 <div className="p-2">
                     <PostList category={category}/>
                 </div>
+                <Modal 
+                    className="modal"
+                    isOpen={true}
+                    contentLabel='Modal'
+                >
+                    <h1>Hola modal</h1>
+                    <CreatePage/>
+                </Modal>
             </div>
         )
     }
