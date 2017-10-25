@@ -37,13 +37,12 @@ class CreatePage extends Component{
         const values = serializeForm(e.target, { hash: true })
         values.id = this.guid();
         values.timestamp = Date.now();
-
-        this.props.createPost(values);
+        console.log(values);
+        //this.props.createPost(values);
     }
-        
-
+    
     render(){
-        console.log(this.props.categories)
+        const { categories } = this.props;
         return (
                 <form onSubmit={this.handleSubmit} className="col-lg-6">
                     <div>
@@ -62,11 +61,15 @@ class CreatePage extends Component{
                             <input name="author" value={this.state.author} onChange={this.handleInputChange}  type="text" className="form-control" placeholder="Author"/>
                         </div>
                         <div className="col">
-                            <input name="category" value={this.state.category} onChange={this.handleInputChange}  type="text" className="form-control" placeholder="Categoria"/>
+                            <select name="category" value={this.state.category} onChange={this.handleInputChange} className="custom-select">
+                                {categories.map( category => (
+                                    <option key={category.name} value={category.name}>{category.name}</option>    
+                                ))}
+                            </select>
                         </div>
                     </div>
                     <br/>
-                    <button className="btn btn-primary">Create</button>
+                    <button className="btn btn-primary float-right">Create</button>
                 </form>
         )
     }
