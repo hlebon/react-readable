@@ -15,11 +15,14 @@ import Modal from 'react-modal'
 //#region class definition
 class HomePage extends React.Component {
     state = {
-        filterBy: '-voteScore'
+        filterBy: '-voteScore',
+        modalOpen: false
     }
+
+    closeModal = () => this.setState(() => ({ modalOpen: false }))
+    openModal = () => this.setState(() => ({ modalOpen: true }))
     
     render(){
-        console.log(this.props);
         const { category, posts } = this.props
         let postList
         if(typeof(category) !== 'undefined'){
@@ -33,22 +36,24 @@ class HomePage extends React.Component {
             postList.sort(sortBy(`${this.state.filterBy}`));
         }
         
-        
+        const { modalOpen } = this.state
+
         return (
+            
             <div className="d-flex flex-column">
                 <div className="p-2">
-                    <Link to="/create" className="btn-create">
-                    </Link>
+                    <button onClick={this.openModal} className="btn btn-create">
+                    </button>
                 </div>
                 <div className="p-2">
                     <PostList category={category}/>
                 </div>
                 <Modal 
-                    className="modal"
-                    isOpen={true}
+                    className='rmodal'
+                    overlayClassName='overlay'
+                    isOpen={modalOpen}
                     contentLabel='Modal'
                 >
-                    <h1>Hola modal</h1>
                     <CreatePage/>
                 </Modal>
             </div>

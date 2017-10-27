@@ -44,7 +44,7 @@ class CreatePage extends Component{
     render(){
         const { categories } = this.props;
         return (
-                <form onSubmit={this.handleSubmit} className="col-lg-6">
+                <form onSubmit={this.handleSubmit}>
                     <div>
                         <h1>Create Post</h1>
                     </div>

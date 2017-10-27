@@ -30,7 +30,6 @@ class EditPost extends Component{
         
 
     render(){
-        console.log(this.props.categories)
         return (
                 <form onSubmit={this.handleSubmit} className="col-lg-6">
                     <div>
