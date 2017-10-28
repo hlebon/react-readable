@@ -52,9 +52,10 @@ class HomePage extends React.Component {
                     className='rmodal'
                     overlayClassName='overlay'
                     isOpen={modalOpen}
+                    onRequestClose={this.closeModal}
                     contentLabel='Modal'
                 >
-                    <CreatePage/>
+                    <CreatePage closeModal={this.closeModal}/>
                 </Modal>
             </div>
         )

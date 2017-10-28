@@ -32,13 +32,20 @@ class CreatePage extends Component{
         })  
     }
 
+    closeCreatePage = (e) => {
+        e.preventDefault();
+        console.log(e);
+        console.log("closeCreatePage")
+        this.props.closeModal();
+    } 
+
     handleSubmit = (e) => {
         e.preventDefault();
         const values = serializeForm(e.target, { hash: true })
         values.id = this.guid();
         values.timestamp = Date.now();
-        console.log(values);
-        //this.props.createPost(values);
+        this.props.createPost(values);
+        this.props.closeModal();
     }
     
     render(){
@@ -69,6 +76,7 @@ class CreatePage extends Component{
                         </div>
                     </div>
                     <br/>
+                    <button onClick={(e) => this.closeCreatePage(e)} className="btn btn-secondary float-right">Cancel</button>
                     <button className="btn btn-primary float-right">Create</button>
                 </form>
         )
