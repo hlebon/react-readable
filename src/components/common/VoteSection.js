@@ -2,6 +2,7 @@ import React from 'react'
 
 class VoteSection extends React.Component{
     handleVote = (value, score) => {
+        console.log(this.props)
         this.props.changeVote(value, score)
     }
 
