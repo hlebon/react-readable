@@ -9,7 +9,8 @@ import {
     FILTER_POSTS,
     CHANGE_VOTE_ON_COMMENT,
     CHANGE_VOTE_ON_POST,
-    CREATE_POST
+    CREATE_POST,
+    CREATE_COMMENT
 } from '../actions'
 
 
@@ -77,6 +78,10 @@ function post (state = initPostCommentState, action){
                 return comment
             })
         })
+        case CREATE_COMMENT: 
+            return Object.assign({}, state, {
+                comments: state.comments.concat([action.data])
+            })
         default:
             return state;
     }

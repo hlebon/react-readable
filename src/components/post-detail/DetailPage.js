@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import sortBy from 'sort-by'
 import { connect } from 'react-redux'
-import { fetchSinglePost, fetchComments, changeVote, voteAComment } from '../../actions'
+import { fetchSinglePost, fetchComments, changeVote, voteAComment, onCreateAComment } from '../../actions'
 import VoteSection from '../common/VoteSection'
 import Comments from '../common/Comments'
 import DeleteEdit from '../common/DeleteEdit'
@@ -21,8 +21,9 @@ class DetailPage extends Component{
     }
 
     onCreateComment = (values) => {
+        values.parentId = this.props.post.id
         console.log(values);
-        //this.props.createComment
+        this.props.onCreateAComment(values);
     }
 
     castDate = (unformatt) => {
@@ -61,7 +62,8 @@ function mapDispatchToProps ( dispatch ) {
     return {
         changeVote: (id, score) => dispatch((changeVote(id, score))),
         setSinglePost: (data) => dispatch((fetchSinglePost(data))),
-        fetchComments: (data) => dispatch((fetchComments(data)))
+        fetchComments: (data) => dispatch((fetchComments(data))),
+        onCreateAComment: (data) => dispatch((onCreateAComment(data)))
     }
 }
 

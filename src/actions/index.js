@@ -11,6 +11,7 @@ export const FILTER_POSTS = "FILTER_POSTS"
 export const REQUEST_COMMENTS = "REQUEST_COMMENTS"
 export const CHANGE_VOTE_ON_POST = "CHANGE_VOTE_ON_POST" // 
 export const CREATE_POST = "CREATE_POST"
+export const CREATE_COMMENT = "CREATE_COMMENT"
 
 //#region request-posts
 export function requestPosts( data ) {
@@ -81,7 +82,6 @@ export function requestComments( data ){
 
 //#endregion requestComments
 
-
 export function changeVote( postId, score ) {
     console.log(postId, score)
     return function(dispatch){
@@ -116,6 +116,21 @@ export function changeVoteOnComment(comment, index){
     }
 }
 
+export function onCreateAComment(comment){
+    return function(dispatch){
+        return ReadableAPI.addComment(comment).then((ncomment) => {
+            dispatch(createAComment(ncomment))
+        })
+    }
+}
+
+export function createAComment( data ){
+    return {
+        type: CREATE_COMMENT,
+        data
+    }
+}
+
 export function changeVoteOnPost(postUpdated, index){
     return {
         type: CHANGE_VOTE_ON_POST,
@@ -123,8 +138,6 @@ export function changeVoteOnPost(postUpdated, index){
         index
     }
 }
-
-
 
 export function filterPosts( data ) {
     return {
@@ -140,8 +153,6 @@ export function changeSortBy( data ) {
     }
 }
 
-
-
 export function onCreatePost(post){
     return function(dispatch){
         return ReadableAPI.createPost(post).then((npost) => {
@@ -156,6 +167,5 @@ export function createPost( data ){
         data
     }
 }
-
 
 //

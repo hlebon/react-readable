@@ -31,15 +31,20 @@ class ResponseForm extends Component{
         const values = serializeForm(e.target, { hash: true })
         values.id = this.guid();
         values.timestamp = Date.now();
-        console.log(values);
-        //this.props.onCreateComment(values);
+        //console.log(values);
+        this.props.onCreateComment(values);
+        this.setState({
+            author: "",
+            body: ""
+        })
+
     }
 
     render(){
         return (
             <div className="mb-5 mt-5">
                 <h4>Write a response</h4>
-                <form onSubmit={this.handleSubmit}>
+                <form  onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label>Usuario</label>
                         <input name="author"value={this.state.author} onChange={ e => this.handleInputChange(e)} type="text" className="form-control" placeholder="Author"/>
