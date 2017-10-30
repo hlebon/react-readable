@@ -20,10 +20,17 @@ class DetailPage extends Component{
         this.props.changeVote(post.id, score)
     }
 
+    onCreateComment = (values) => {
+        console.log(values);
+        //this.props.createComment
+    }
+
     castDate = (unformatt) => {
         const date = new Date(unformatt);
         return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }
+
+
 
     render(){
         const { post, comments } = this.props;
@@ -33,7 +40,7 @@ class DetailPage extends Component{
             <div className="d-flex justify-content-center">
                 <div className="col-lg-10">
                     <DetailPost castDate={this.castDate} post={post} voteAPost={this.voteApost}/>
-                    <ResponseForm/>
+                    <ResponseForm onCreateComment={this.onCreateComment}/>
                     {comments.length > 0 && (
                         <Comments comments={comments} castDate={this.castDate}/>
                     )}

@@ -21,7 +21,7 @@ class CreatePage extends Component{
         }
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
           s4() + '-' + s4() + s4() + s4();
-      }
+    }
 
     handleInputChange = (event) => {
         const target = event.target;
