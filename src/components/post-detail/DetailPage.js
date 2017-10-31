@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import sortBy from 'sort-by'
 import { connect } from 'react-redux'
-import { fetchSinglePost, fetchComments, changeVote, voteAComment, onCreateAComment } from '../../actions'
+import { Route, Redirect } from 'react-router'
+import createHistory from 'history/createBrowserHistory'
+import { fetchSinglePost, fetchComments, changeVote, voteAComment, onCreateAComment, onDeletePost } from '../../actions'
 import VoteSection from '../common/VoteSection'
 import Comments from '../common/Comments'
 import DeleteEdit from '../common/DeleteEdit'
 import ResponseForm from '../common/ResponseForm'
 import DetailPost from './DetailPost'
+
+const history = createHistory()
 
 class DetailPage extends Component{
 
@@ -20,18 +24,33 @@ class DetailPage extends Component{
         this.props.changeVote(post.id, score)
     }
 
-    onCreateComment = (values) => {
+    createComment = (values) => {
         values.parentId = this.props.post.id
         console.log(values);
         this.props.onCreateAComment(values);
+    }
+
+    handleAction = (postId, type) => {
+        if(type === "delete"){
+            this.deletePost(postId);
+            
+        }
+    }
+
+    deletePost = (postId) => {
+        this.props.onDeletePost(postId);
+        history.push("/")
+        //history.go("/");
+    }
+
+    editPost = (postId) => {
+        
     }
 
     castDate = (unformatt) => {
         const date = new Date(unformatt);
         return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }
-
-
 
     render(){
         const { post, comments } = this.props;
@@ -41,8 +60,8 @@ class DetailPage extends Component{
         return (
             <div className="d-flex justify-content-center">
                 <div className="col-lg-10">
-                    <DetailPost castDate={this.castDate} post={post} voteAPost={this.voteApost}/>
-                    <ResponseForm onCreateComment={this.onCreateComment}/>
+                    <DetailPost onHandleAction={this.handleAction} castDate={this.castDate} post={post} voteAPost={this.voteApost}/>
+                    <ResponseForm onCreateComment={this.CreateComment}/>
                     {comments.length > 0 && (
                         <Comments comments={comments} castDate={this.castDate}/>
                     )}
@@ -64,7 +83,8 @@ function mapDispatchToProps ( dispatch ) {
         changeVote: (id, score) => dispatch((changeVote(id, score))),
         setSinglePost: (data) => dispatch((fetchSinglePost(data))),
         fetchComments: (data) => dispatch((fetchComments(data))),
-        onCreateAComment: (data) => dispatch((onCreateAComment(data)))
+        onCreateAComment: (data) => dispatch((onCreateAComment(data))),
+        onDeletePost: (postId) => dispatch((onDeletePost(postId)))
     }
 }
 

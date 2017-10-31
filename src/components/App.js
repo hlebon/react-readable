@@ -9,7 +9,9 @@ class App extends Component {
   render() {
     return (
         <div>
-            <Route exact path="/" component={HomePage} />
+            <Route exact path="/" render={() => (
+              <HomePage/>
+            )} />
             <Route exact path="/:category/:post_id" render={(props)=>(
               <DetailPage postId={props.match.params.post_id}/>
             )}/>

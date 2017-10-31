@@ -5,8 +5,13 @@ import VoteSection from '../common/VoteSection'
 
 class PostDetail extends Component{
 
-    onHandleVote = (post, score) => {
+    handleVote = (post, score) => {
         this.props.voteAPost(post, score)
+    }
+
+    handleAction = (postId, type) => {
+        console.log(postId, type)
+        this.props.onHandleAction(postId, type)
     }
 
     render(){
@@ -29,8 +34,8 @@ class PostDetail extends Component{
                 </div>
                 <div className="card-footer">
                     <div className="list-inline text-muted">
-                        <DeleteEdit position={"float-right"}/>
-                        <VoteSection value={post} changeVote={this.onHandleVote} position={""} />
+                        <DeleteEdit postId={post.id} onDeletePost={this.handleAction} position={"float-right"}/>
+                        <VoteSection value={post} changeVote={this.handleVote} position={""} />
                     </div>
                 </div>
             </div>

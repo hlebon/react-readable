@@ -31,7 +31,6 @@ class ResponseForm extends Component{
         const values = serializeForm(e.target, { hash: true })
         values.id = this.guid();
         values.timestamp = Date.now();
-        //console.log(values);
         this.props.onCreateComment(values);
         this.setState({
             author: "",
