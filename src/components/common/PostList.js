@@ -5,7 +5,7 @@ import sortBy from "sort-by";
 import PostCard from '../home/PostCard'
 import Categories from '../common/Categories'
 import NavControl from '../common/NavControl'
-import { changeVoteOnPostList } from '../../actions'
+import { changeVoteOnPostList, onDeletePost } from '../../actions'
 
 
 
@@ -23,6 +23,16 @@ class PostList extends Component{
         this.setState({
             filterBy: data
         })
+    }
+
+    onHandleActions = (postId, type) => {
+        if(type === "delete"){
+            this.onHandleDeletePost(postId);
+        }
+    }
+
+    onHandleDeletePost = (postId, type) => {
+        this.props.onDeletePost(postId);
     }
 
 
@@ -48,7 +58,7 @@ class PostList extends Component{
                     <NavControl onChangeSort={this.onChangeSort}/>    
                 </div>
                 <div className="col-lg-8">
-                    <PostCard postList={postList} onHandleVote={this.onHandleVote}/>
+                    <PostCard postList={postList} onHandleDeletePost={this.onHandleActions} onHandleVote={this.onHandleVote}/>
                 </div>
                 <div className="col-lg-2">
                     <Categories categories={categories}/>
@@ -68,7 +78,8 @@ function mapStateToProps ( state ) {
 
 function mapDispatchToProps ( dispatch ) {
     return {
-        changeVote: (id, score, index) => dispatch((changeVoteOnPostList(id, score, index)))
+        changeVote: (id, score, index) => dispatch((changeVoteOnPostList(id, score, index))),
+        onDeletePost: (postId) => dispatch((onDeletePost(postId)))
     }
 }
 

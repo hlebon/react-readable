@@ -12,6 +12,7 @@ export const REQUEST_COMMENTS = "REQUEST_COMMENTS"
 export const CHANGE_VOTE_ON_POST = "CHANGE_VOTE_ON_POST" // 
 export const CREATE_POST = "CREATE_POST"
 export const CREATE_COMMENT = "CREATE_COMMENT"
+export const DELETE_POST = "DELETE_POST"
 
 //#region request-posts
 export function requestPosts( data ) {
@@ -120,6 +121,23 @@ export function onCreateAComment(comment){
     return function(dispatch){
         return ReadableAPI.addComment(comment).then((ncomment) => {
             dispatch(createAComment(ncomment))
+        })
+    }
+}
+
+export function deletePost(data){
+    return {
+        type: DELETE_POST,
+        data
+    }
+}
+
+export function onDeletePost(postId){
+    return function(dispatch){
+        return ReadableAPI.deletePost(postId).then((response) => {
+            console.log(response)
+            //dispatch(deletePost(response))
+            dispatch(fetchPosts())
         })
     }
 }

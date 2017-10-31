@@ -66,7 +66,7 @@ fetch(`${api}/posts/${id}`, {
 }).then( res => res.json())
 
 //Delete un post
-export const deletePost = (id, body) =>
+export const deletePost = (id) =>
 fetch(`${api}/posts/${id}`, { 
   method: 'DELETE', 
   headers: { 

@@ -10,7 +10,8 @@ import {
     CHANGE_VOTE_ON_COMMENT,
     CHANGE_VOTE_ON_POST,
     CREATE_POST,
-    CREATE_COMMENT
+    CREATE_COMMENT,
+    DELETE_POST
 } from '../actions'
 
 

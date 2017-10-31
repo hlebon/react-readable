@@ -35,6 +35,7 @@ class DetailPage extends Component{
 
     render(){
         const { post, comments } = this.props;
+        console.log(post);
         comments.sort(sortBy("-voteScore"));
 
         return (
