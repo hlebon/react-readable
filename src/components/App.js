@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import HomePage from './home/HomePage'
 import DetailPage from './post-detail/DetailPage'
 import CreatePage from './create-edit/CreatePage'
+import EditPost from './create-edit/EditPost'
 
 
 class App extends Component {
@@ -20,6 +21,9 @@ class App extends Component {
             )}/>
             <Route exact path="/create" render={() => (
               <CreatePage/>
+            )}/>
+            <Route exact path="/edit" render={() => (
+              <EditPost/>
             )}/>
         </div>
     )

@@ -18,8 +18,8 @@ class PostCard extends Component{
         this.props.onHandleVote(post, score)
     }
 
-    onHandleDeletePost = (postId, type) => {
-        this.props.onHandleDeletePost(postId, type)
+    onHandleAction = (postId, type) => {
+        this.props.handleActions(postId, type)
     }
 
     render(){
@@ -45,7 +45,7 @@ class PostCard extends Component{
                                 </div>
                                 <div className="card-footer text-muted list-inline">
                                     <VoteSection value={post} position={""} changeVote={this.onHandleVote}/>
-                                    <DeleteEdit onDeletePost={this.onHandleDeletePost} postId={post.id} position="float-right"/>
+                                    <DeleteEdit handleAction={this.onHandleAction} postId={post.id} position="float-right"/>
                                 </div>
                             </div>
                             ))

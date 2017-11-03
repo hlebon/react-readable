@@ -10,8 +10,8 @@ class PostDetail extends Component{
     }
 
     handleAction = (postId, type) => {
-        console.log(postId, type)
-        this.props.onHandleAction(postId, type)
+        console.log(this.props)
+        this.props.onHandleActions(postId, type)
     }
 
     render(){
@@ -35,7 +35,7 @@ class PostDetail extends Component{
                 </div>
                 <div className="card-footer">
                     <div className="list-inline text-muted">
-                        <DeleteEdit id={post.id} onDelete={this.handleAction} position={"float-right"}/>
+                        <DeleteEdit id={post.id} handleAction={this.handleAction} position={"float-right"}/>
                         <VoteSection value={post} changeVote={this.handleVote} position={""} />
                     </div>
                 </div>

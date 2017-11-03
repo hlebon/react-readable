@@ -13,6 +13,9 @@ import DetailPost from './DetailPost'
 const history = createHistory()
 
 class DetailPage extends Component{
+    state = {
+        onEditMode : false
+    }
 
     componentDidMount(){
         this.props.setSinglePost(this.props.postId)
@@ -20,24 +23,21 @@ class DetailPage extends Component{
     }
 
     voteApost = (post, score) => {
-        console.log(post.id, score)
         this.props.changeVote(post.id, score)
     }
 
     createComment = (values) => {
         values.parentId = this.props.post.id
-        console.log(values);
         this.props.onCreateAComment(values);
     }
 
     handleAction = (postId, type) => {
+        console.log("handleAction")
         if(type === "delete"){
             this.deletePost(postId);
-        }
-    }
-
-    example = (name) => {
-        console.log(name);
+        }else if(type === "edit"){
+            this.editPost(postId)
+        } 
     }
 
     deletePost = (postId) => {
@@ -45,7 +45,9 @@ class DetailPage extends Component{
     }
 
     editPost = (postId) => {
-        
+        this.setState({
+            onEditMode: true
+        })
     }
 
     castDate = (unformatt) => {
@@ -58,7 +60,11 @@ class DetailPage extends Component{
         const redirect = this.props.redirect;
         console.log(redirect);
         if (redirect) {
-            return <Redirect to='/'/>;
+            return <Redirect exact to='/'/>;
+        }
+
+        if(this.state.onEditMode){
+            return <Redirect exact to='/edit'/>;
         }
 
         const { post, comments } = this.props;
@@ -68,7 +74,7 @@ class DetailPage extends Component{
         return (
             <div className="d-flex justify-content-center">
                 <div className="col-lg-10">
-                    <DetailPost onHandleAction={this.handleAction} castDate={this.castDate} post={post} voteAPost={this.voteApost}/>
+                    <DetailPost onHandleActions={this.handleAction} castDate={this.castDate} post={post} voteAPost={this.voteApost}/>
                     <ResponseForm onCreateComment={this.createComment}/>
                     {comments.length > 0 && (
                         <Comments comments={comments} castDate={this.castDate}/>

@@ -1,17 +1,19 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Redirect } from "react-router-dom"
 import escapeRegExp from "escape-string-regexp";
 import sortBy from "sort-by";
-import PostCard from '../home/PostCard'
-import Categories from '../common/Categories'
-import NavControl from '../common/NavControl'
-import { changeVoteOnPostList, onDeletePost } from '../../actions'
+import PostCard from "../home/PostCard"
+import Categories from "../common/Categories"
+import NavControl from "../common/NavControl"
+import { changeVoteOnPostList, onDeletePost } from "../../actions"
 
 
 
 class PostList extends Component{
     state = {
-        filterBy: '-voteScore'
+        filterBy: '-voteScore',
+        onEditMode: false
     }
 
     onHandleVote = (post, score) => {
@@ -28,6 +30,10 @@ class PostList extends Component{
     onHandleActions = (postId, type) => {
         if(type === "delete"){
             this.onHandleDeletePost(postId);
+        }else if(type === "edit"){
+            this.setState({
+                onEditMode: true
+            })
         }
     }
 
@@ -37,6 +43,11 @@ class PostList extends Component{
 
 
     render(){
+
+        if(this.state.onEditMode){
+            return <Redirect exact to='/edit'/>;
+        }
+
         const { category, posts, categories } = this.props
         console.log(this.props);
 
@@ -58,7 +69,7 @@ class PostList extends Component{
                     <NavControl onChangeSort={this.onChangeSort}/>    
                 </div>
                 <div className="col-lg-8">
-                    <PostCard postList={postList} onHandleDeletePost={this.onHandleActions} onHandleVote={this.onHandleVote}/>
+                    <PostCard postList={postList} handleActions={this.onHandleActions} onHandleVote={this.onHandleVote}/>
                 </div>
                 <div className="col-lg-2">
                     <Categories categories={categories}/>
