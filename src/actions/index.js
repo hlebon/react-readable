@@ -13,6 +13,9 @@ export const CHANGE_VOTE_ON_POST = "CHANGE_VOTE_ON_POST" //
 export const CREATE_POST = "CREATE_POST"
 export const CREATE_COMMENT = "CREATE_COMMENT"
 export const DELETE_POST = "DELETE_POST"
+export const REDIRECT = "REDIRECT"
+export const DELETE_COMMENT = "DELETE_COMMENT"
+
 
 //#region request-posts
 export function requestPosts( data ) {
@@ -22,10 +25,36 @@ export function requestPosts( data ) {
     }
 }
 
+export function setRedirectTo( data ) {
+    return {
+        type: REDIRECT,
+        redirect: data
+    }
+}
+
+export function deleteComment( data ){
+    return{
+        type: DELETE_COMMENT,
+        data
+    }
+}
+
+export function onDeleteComment( id ){
+    return function(dispatch){
+        return ReadableAPI.deleteComment(id).then(( resp ) => {
+            console.log(resp)
+            dispatch(deleteComment(resp))
+        })
+    }
+}
+
+
+
 export function fetchPosts(){
     return function(dispatch){
         return ReadableAPI.getPosts().then( (posts) => {
             dispatch(requestPosts(posts))
+            dispatch(setRedirectTo(false))
         });
     }
 }
@@ -52,15 +81,22 @@ export function fetchCategories(){
 export function fetchSinglePost( data ){
     return function(dispatch){
         return ReadableAPI.getPostsDetails(data).then( ( data ) =>{
-            dispatch(requestSinglePost(data))
+            console.log(data);
+            if(Object.getOwnPropertyNames(data).length === 0){
+                dispatch(requestSinglePost(data, true))
+            }else{
+                dispatch(requestSinglePost(data, false))
+            }
+            
         })
     }
 }
 
-export function requestSinglePost( data ){
+export function requestSinglePost( data, redirect ){
     return {
         type: REQUEST_SINGLE_POST,
-        data
+        data,
+        redirect
     }
 }
 //#endregion request-single-post
@@ -84,10 +120,9 @@ export function requestComments( data ){
 //#endregion requestComments
 
 export function changeVote( postId, score ) {
-    console.log(postId, score)
     return function(dispatch){
         return ReadableAPI.votePost(postId, score).then( (postUpdated) => {
-            dispatch(requestSinglePost(postUpdated))
+            dispatch(requestSinglePost(postUpdated, postUpdated.deleted))
         })
     }
 }
@@ -101,7 +136,6 @@ export function changeVoteOnPostList( postId, score, index ) {
 }
 
 export function voteAComment(commentId, score, index){
-    console.log(commentId, score, index);
     return function(dispatch){
         return ReadableAPI.voteAComment(commentId, score).then( (commentUpdated) => {
             dispatch(changeVoteOnComment(commentUpdated, index))
@@ -134,10 +168,12 @@ export function deletePost(data){
 
 export function onDeletePost(postId){
     return function(dispatch){
-        return ReadableAPI.deletePost(postId).then((response) => {
-            console.log(response)
-            //dispatch(deletePost(response))
-            dispatch(fetchPosts())
+        return ReadableAPI.deletePost(postId).then((post) => {
+            console.log(post)
+            if(post.deleted){
+                dispatch(requestSinglePost({}, post.deleted))
+                dispatch(fetchPosts())
+            }
         })
     }
 }

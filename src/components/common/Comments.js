@@ -1,12 +1,29 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { voteAComment } from '../../actions'
+import { voteAComment, onDeleteComment } from '../../actions'
 import VoteSection from './VoteSection'
 import DeleteEdit from './DeleteEdit'
 
 class Comments extends Component{
     castDate = (date) => {
         this.props.castDate(date)
+    }
+
+    handleAction = (id, type) => {
+        if(type === "delete"){
+            this.delete(id)
+        }else if(type === "edit"){
+            this.edit(id)
+        }
+    }
+
+    edit = (id) => {
+        console.log(id);
+    }
+
+    delete = (id) => {
+        console.log(id)
+        this.props.onDeleteComment(id)
     }
 
     handleVoteComment = (comment, score) =>{
@@ -30,7 +47,7 @@ class Comments extends Component{
                             <p className="mb-1">{comment.body}</p>
                             <div className="mt-3 list-inline card-subtitle mb-2 text-muted">
                                 <VoteSection  position={""} changeVote={this.handleVoteComment} value={comment}/>
-                                <DeleteEdit position="float-right"/>
+                                <DeleteEdit onDelete={this.handleAction} position="float-right" id={comment.id}/>
                             </div>
                         </div>
                     ))}
@@ -42,8 +59,9 @@ class Comments extends Component{
 
 function mapDispatchToProps ( dispatch ) {
     return {
-        voteAcomment: (id, score, comments) => dispatch((voteAComment(id, score, comments)))
+        voteAcomment: (id, score, comments) => dispatch((voteAComment(id, score, comments))),
+        onDeleteComment: (id) => dispatch(onDeleteComment(id))
     }
 }
 
-export default connect(null, mapDispatchToProps)(Comments)    
+export default connect(null, mapDispatchToProps)(Comments)

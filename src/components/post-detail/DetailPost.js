@@ -17,6 +17,7 @@ class PostDetail extends Component{
     render(){
 
         const { post } = this.props
+        console.log(post);
 
         return (
             <div className="border-0 card">
@@ -34,7 +35,7 @@ class PostDetail extends Component{
                 </div>
                 <div className="card-footer">
                     <div className="list-inline text-muted">
-                        <DeleteEdit postId={post.id} onDeletePost={this.handleAction} position={"float-right"}/>
+                        <DeleteEdit id={post.id} onDelete={this.handleAction} position={"float-right"}/>
                         <VoteSection value={post} changeVote={this.handleVote} position={""} />
                     </div>
                 </div>

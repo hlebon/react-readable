@@ -33,14 +33,11 @@ class DetailPage extends Component{
     handleAction = (postId, type) => {
         if(type === "delete"){
             this.deletePost(postId);
-            
         }
     }
 
     deletePost = (postId) => {
         this.props.onDeletePost(postId);
-        history.push("/")
-        //history.go("/");
     }
 
     editPost = (postId) => {
@@ -53,6 +50,13 @@ class DetailPage extends Component{
     }
 
     render(){
+
+        const redirect = this.props.redirect;
+        console.log(redirect);
+        if (redirect) {
+            return <Redirect to='/'/>;
+        }
+
         const { post, comments } = this.props;
         console.log(post);
         comments.sort(sortBy("-voteScore"));
@@ -72,9 +76,11 @@ class DetailPage extends Component{
 }
 
 function mapStateToProps ( state ) {
+    console.log(state)
     return { 
         post: state.post.singlePost,
-        comments: state.post.comments
+        comments: state.post.comments,
+        redirect: state.post.redirect
     }
 }
 

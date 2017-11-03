@@ -11,7 +11,9 @@ import {
     CHANGE_VOTE_ON_POST,
     CREATE_POST,
     CREATE_COMMENT,
-    DELETE_POST
+    DELETE_POST,
+    REDIRECT,
+    DELETE_COMMENT
 } from '../actions'
 
 
@@ -24,6 +26,7 @@ const initialState = {
 const initPostCommentState = {
     comments: [],
     singlePost: {},
+    redirect: false,
     onEdit: false
 }
 
@@ -61,10 +64,12 @@ function init (state = initialState, action){
 }
 
 function post (state = initPostCommentState, action){
+    console.log(action);
     switch (action.type) {
         case REQUEST_SINGLE_POST:
             return Object.assign( {}, state, {
-                singlePost: action.data
+                singlePost: action.data,
+                redirect: action.redirect
             })
         case REQUEST_COMMENTS:
             return Object.assign( {}, state, {
@@ -82,6 +87,20 @@ function post (state = initPostCommentState, action){
         case CREATE_COMMENT: 
             return Object.assign({}, state, {
                 comments: state.comments.concat([action.data])
+            })
+        case REDIRECT:
+            return Object.assign({}, state, {
+                redirect: action.data
+            })
+        case DELETE_COMMENT:
+            return Object.assign({}, state, {
+                comments: state.comments.filter( (comment) => {
+                    if(comment.id === action.data.id ){
+                        return false
+                    }else{
+                        return true
+                    }
+                })
             })
         default:
             return state;

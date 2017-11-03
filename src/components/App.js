@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import HomePage from './home/HomePage'
 import DetailPage from './post-detail/DetailPage'
 import CreatePage from './create-edit/CreatePage'
