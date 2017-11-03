@@ -36,6 +36,10 @@ class DetailPage extends Component{
         }
     }
 
+    example = (name) => {
+        console.log(name);
+    }
+
     deletePost = (postId) => {
         this.props.onDeletePost(postId);
     }
@@ -65,7 +69,7 @@ class DetailPage extends Component{
             <div className="d-flex justify-content-center">
                 <div className="col-lg-10">
                     <DetailPost onHandleAction={this.handleAction} castDate={this.castDate} post={post} voteAPost={this.voteApost}/>
-                    <ResponseForm onCreateComment={this.CreateComment}/>
+                    <ResponseForm onCreateComment={this.createComment}/>
                     {comments.length > 0 && (
                         <Comments comments={comments} castDate={this.castDate}/>
                     )}

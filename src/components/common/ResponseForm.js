@@ -31,8 +31,6 @@ class ResponseForm extends Component{
         const values = serializeForm(e.target, { hash: true })
         values.id = this.guid()
         values.timestamp = Date.now()
-        console.log(this.props)
-        console.log(values)
         this.props.onCreateComment(values);
         this.setState({
             author: "",
@@ -45,7 +43,7 @@ class ResponseForm extends Component{
         return (
             <div className="mb-5 mt-5">
                 <h4>Write a response</h4>
-                <form  onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label>Usuario</label>
                         <input name="author"value={this.state.author} onChange={ e => this.handleInputChange(e)} type="text" className="form-control" placeholder="Author"/>
@@ -54,7 +52,7 @@ class ResponseForm extends Component{
                         <label>Comment</label>
                         <textarea name="body" value={this.state.body}  onChange={ e => this.handleInputChange(e)} className="form-control"></textarea>
                     </div>
-                    <button className="btn btn-outline-success">
+                    <button type="submit" className="btn btn-outline-success">
                         Comment
                     </button>
                 </form>
