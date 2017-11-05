@@ -1,31 +1,67 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect, history } from 'react-router-dom'
+import { connect } from 'react-redux'
+import sortBy from 'sort-by'
+import escapeRegExp from 'escape-string-regexp'
+import { changeVoteOnPostList, onDeletePost } from '../../actions'
 import VoteSection from '../common/VoteSection'
 import DeleteEdit from '../common/DeleteEdit'
-import { changeVote } from '../../actions'
-import { connect } from 'react-redux'
-
 
 
 class PostCard extends Component{
+    state = {
+        onEditMode: false
+    }
+
     castDate = (unformatt) => {
         const date = new Date(unformatt);
         return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }
 
     onHandleVote = (post, score) => {
-        console.log(post, score)
-        this.props.onHandleVote(post, score)
+        const index = this.props.posts.indexOf(post)
+        this.props.changeVote(post.id, score, index)
     }
 
-    onHandleAction = (postId, type) => {
-        this.props.handleActions(postId, type)
+    handleAction = (postId, type) => {
+        console.log(postId, type)
+        if( type === "delete" ){
+            this.props.onDeletePost(postId)
+        }
+        else 
+        if( type === "edit"){
+            this.setState({
+                onEditMode: true
+            })
+            
+        }
     }
 
     render(){
-        console.log(this.props)
-        const { postList } = this.props
-        console.log(postList);
+        if (this.state.onEditMode) {
+            return <Redirect exact to='/edit'/>;
+        }
+
+        let { posts, filterBy, category } = this.props
+        
+        let postList = []
+        if(category !== undefined){
+            if(category.length > 0){
+                const match = new RegExp(escapeRegExp(category), 'i');
+                postList = posts.filter((p) => match.test(p.category))
+            }
+        }else{
+            postList = posts
+        }
+
+        if(postList.length > 0){
+            for(let filter of filterBy){
+                if(filter.value.length > 0){
+                    postList.sort(sortBy(filter.value))
+                }
+            }
+        }
+
         return (             
                 <div className="card-deck">
                     {postList.length > 0 ? (
@@ -45,7 +81,7 @@ class PostCard extends Component{
                                 </div>
                                 <div className="card-footer text-muted list-inline">
                                     <VoteSection value={post} position={""} changeVote={this.onHandleVote}/>
-                                    <DeleteEdit handleAction={this.onHandleAction} postId={post.id} position="float-right"/>
+                                    <DeleteEdit handleAction={this.handleAction} id={post.id} position="float-right"/>
                                 </div>
                             </div>
                             ))
@@ -62,4 +98,21 @@ class PostCard extends Component{
 }
 
 
-export default PostCard
+
+function mapStateToProps ( state ) {
+    console.log(state)
+    return { 
+        posts: state.init.postItems,
+        filterBy: state.init.filterBy
+    }
+}
+
+function mapDispatchToProps ( dispatch ) {
+    return {
+        changeVote: (id, score, index) => dispatch((changeVoteOnPostList(id, score, index))),
+        onDeletePost: (postId) => dispatch((onDeletePost(postId)))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostCard)

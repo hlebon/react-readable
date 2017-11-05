@@ -6,26 +6,31 @@ import {
     REQUEST_COMMENTS,
     CHANGE_VOTE, 
     SORT_POST,
-    FILTER_POSTS,
+    FILTER_POSTS_BY_CATEGORY,
     CHANGE_VOTE_ON_COMMENT,
     CHANGE_VOTE_ON_POST,
     CREATE_POST,
     CREATE_COMMENT,
     DELETE_POST,
     REDIRECT,
-    DELETE_COMMENT
+    DELETE_COMMENT,
+    FILTER_POSTS_BY_VALUE
 } from '../actions'
 
 
 const initialState = {
     postItems: [],
     categories: [],
-    category: ""
+    category: "",
+    filterBy: [
+        { id: 0, value: "-voteScore" }, 
+        { id: 1, value: "" }
+    ]
 }
 
-const initPostCommentState = {
+const initSinglePostInfo = {
     comments: [],
-    singlePost: {},
+    post: {},
     redirect: false,
     onEdit: false
 }
@@ -41,10 +46,19 @@ function init (state = initialState, action){
             return Object.assign( {}, state, {
                 categories: action.data
             })
-        case FILTER_POSTS:
+        case FILTER_POSTS_BY_CATEGORY:
             return Object.assign( {}, state, {
                 category: action.data
             })
+        case FILTER_POSTS_BY_VALUE:
+            return Object.assign( {}, state, {
+                filterBy: state.filterBy.map((filter, index) => {
+                    if(index === action.filter.id){
+                        filter.value = action.filter.value
+                    }
+                    return filter;
+                } )
+            } )
         case CHANGE_VOTE_ON_POST:
             return Object.assign( {}, state, {
                 postItems : state.postItems.map( (post, index) => {
@@ -63,12 +77,12 @@ function init (state = initialState, action){
     }
 }
 
-function post (state = initPostCommentState, action){
+function post (state = initSinglePostInfo, action){
     console.log(action);
     switch (action.type) {
         case REQUEST_SINGLE_POST:
             return Object.assign( {}, state, {
-                singlePost: action.data,
+                post: action.data,
                 redirect: action.redirect
             })
         case REQUEST_COMMENTS:
@@ -95,7 +109,7 @@ function post (state = initPostCommentState, action){
         case DELETE_COMMENT:
             return Object.assign({}, state, {
                 comments: state.comments.filter( (comment) => {
-                    if(comment.id === action.data.id ){
+                    if(comment.id === action.commentId ){
                         return false
                     }else{
                         return true

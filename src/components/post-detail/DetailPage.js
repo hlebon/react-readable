@@ -88,7 +88,7 @@ class DetailPage extends Component{
 function mapStateToProps ( state ) {
     console.log(state)
     return { 
-        post: state.post.singlePost,
+        post: state.post.post,
         comments: state.post.comments,
         redirect: state.post.redirect
     }

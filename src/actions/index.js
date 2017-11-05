@@ -7,7 +7,8 @@ export const CHANGE_VOTE_ON_COMMENT = "CHANGE_VOTE_ON_COMMENT"
 export const REQUEST_CATEGORY = "REQUEST_CATEGORY"
 export const CHANGE_VOTE = "CHANGE_VOTE"
 export const SORT_BY = "SORT_BY"
-export const FILTER_POSTS = "FILTER_POSTS"
+export const FILTER_POSTS_BY_CATEGORY = "FILTER_POSTS_BY_CATEGORY"
+export const FILTER_POSTS_BY_VALUE = "FILTER_POSTS_BY_VALUE"
 export const REQUEST_COMMENTS = "REQUEST_COMMENTS"
 export const CHANGE_VOTE_ON_POST = "CHANGE_VOTE_ON_POST" // 
 export const CREATE_POST = "CREATE_POST"
@@ -17,7 +18,6 @@ export const REDIRECT = "REDIRECT"
 export const DELETE_COMMENT = "DELETE_COMMENT"
 
 
-//#region request-posts
 export function requestPosts( data ) {
     return {
         type: REQUEST_POSTS,
@@ -32,10 +32,12 @@ export function setRedirectTo( data ) {
     }
 }
 
+
+
 export function deleteComment( data ){
     return{
         type: DELETE_COMMENT,
-        data
+        commentId: data.id
     }
 }
 
@@ -193,10 +195,18 @@ export function changeVoteOnPost(postUpdated, index){
     }
 }
 
-export function filterPosts( data ) {
+export function filterPostsByCategory( data ) {
     return {
-        type: FILTER_POSTS,
+        type: FILTER_POSTS_BY_CATEGORY,
         data
+    }
+}
+
+export function filterPostsByValue( filter ){
+    console.log(filter);
+    return {
+        type: FILTER_POSTS_BY_VALUE,
+        filter
     }
 }
 

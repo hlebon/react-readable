@@ -1,10 +1,7 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { requestPost, requestCategories } from './actions'
-import Header from './components/common/Header'
-import Categories from './components/common/Categories'
-import App from './components/App'
 import { BrowserRouter } from 'react-router-dom'
+import Header from './components/common/Header'
+import App from './components/App'
 
 class MainApp extends React.Component{
     render(){

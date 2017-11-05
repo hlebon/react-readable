@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 class Categories extends Component{
-    render(){
 
+    render(){
         const { categories } = this.props;
         return (
             <div>
@@ -11,10 +12,10 @@ class Categories extends Component{
                     <div className="list-inline">
                         <h5>Categories</h5>
                         { this.props.categories.map( ( category ) => (
-                            <Link to={`/${category.path}`}  key={category.name} className="text-white p-2 m-1 list-inline-item border bg-secondary rounded">
+                            <Link to={`/${category.path}`}  key={category.name} className="text-white p-2 m-1 list-inline-item border bg-green rounded">
                             {category.name}</Link>
                         ))}
-                        <Link to="/"  key="all" className="text-white p-1 m-1 list-inline-item border bg-secondary rounded">
+                        <Link to="/"  key="all" className="text-white p-1 m-1 list-inline-item border bg-green rounded">
                             All</Link>
                     </div>
                 ) : (
@@ -27,7 +28,11 @@ class Categories extends Component{
     }
 }
 
-
+function mapStateToProps(state){
+    return {
+        categories: state.init.categories
+    }
+}
 
 //export default Categories
-export default Categories
+export default connect(mapStateToProps)(Categories)

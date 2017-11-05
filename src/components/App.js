@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
-import HomePage from './home/HomePage'
+import HomeView from './home/HomeView'
 import DetailPage from './post-detail/DetailPage'
 import CreatePage from './create-edit/CreatePage'
 import EditPost from './create-edit/EditPost'
@@ -11,20 +11,22 @@ class App extends Component {
     return (
         <div>
             <Route exact path="/" render={() => (
-              <HomePage/>
+              <HomeView/>
             )} />
+
             <Route exact path="/:category/:post_id" render={(props)=>(
               <DetailPage postId={props.match.params.post_id}/>
             )}/>
+
             <Route exact path="/:category"  render={(props)=>(
-              <HomePage category={props.match.params.category}/>
+              <HomeView category={props.match.params.category}/>
             )}/>
+
             <Route exact path="/create" render={() => (
               <CreatePage/>
             )}/>
-            <Route exact path="/edit" render={() => (
-              <EditPost/>
-            )}/>
+
+            <Route exact path="/edit" component={EditPost}/>
         </div>
     )
   }

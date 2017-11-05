@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class DeleteEdit extends Component{
 
     handleAction = (id, type) => {
-        console.log(this.props)
+        console.log(id, type)
         this.props.handleAction(id, type)
     }
 
