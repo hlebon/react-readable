@@ -14,7 +14,9 @@ import {
     DELETE_POST,
     REDIRECT,
     DELETE_COMMENT,
-    FILTER_POSTS_BY_VALUE
+    FILTER_POSTS_BY_VALUE,
+    AFTER_EDIT,
+    SET_EDIT_MODE
 } from '../actions'
 
 
@@ -32,7 +34,10 @@ const initSinglePostInfo = {
     comments: [],
     post: {},
     redirect: false,
-    onEdit: false
+    edit: {
+        onEdit: false,
+        postId: ""
+    }
 }
 
 function init (state = initialState, action){
@@ -64,6 +69,16 @@ function init (state = initialState, action){
                 postItems : state.postItems.map( (post, index) => {
                     if(index == action.index){
                          post.voteScore = action.post.voteScore
+                    }
+                    return post
+                })
+            })
+        case AFTER_EDIT:
+            return Object.assign({}, state, {
+                postItems: state.postItems.map( ( post, index ) => {
+                    if(post.id === action.post.id){
+                        post.body = action.post.body,
+                        post.title = action.post.title
                     }
                     return post
                 })
@@ -116,6 +131,15 @@ function post (state = initSinglePostInfo, action){
                     }
                 })
             })
+        case SET_EDIT_MODE:
+            return {
+                ...state,
+                edit: {
+                    ...state.edit,
+                    onEdit: action.edit.onEdit,
+                    postId: action.edit.postId
+                }
+            }
         default:
             return state;
     }

@@ -16,6 +16,8 @@ export const CREATE_COMMENT = "CREATE_COMMENT"
 export const DELETE_POST = "DELETE_POST"
 export const REDIRECT = "REDIRECT"
 export const DELETE_COMMENT = "DELETE_COMMENT"
+export const AFTER_EDIT = "AFTER_EDIT"
+export const SET_EDIT_MODE = "SET_EDIT_MODE"
 
 
 export function requestPosts( data ) {
@@ -77,13 +79,19 @@ export function fetchCategories(){
         })
     }
 }
-//#endregion categories
 
-//#region request-single-post
+export function onUpdatePost(id, body){
+    return function(dispatch){
+        return ReadableAPI.editPost(id, body).then((data) => {
+            dispatch(requestSinglePost(data, false))
+            dispatch(afterEdit(data))
+        })
+    }
+}
+
 export function fetchSinglePost( data ){
     return function(dispatch){
         return ReadableAPI.getPostsDetails(data).then( ( data ) =>{
-            console.log(data);
             if(Object.getOwnPropertyNames(data).length === 0){
                 dispatch(requestSinglePost(data, true))
             }else{
@@ -184,6 +192,21 @@ export function createAComment( data ){
     return {
         type: CREATE_COMMENT,
         data
+    }
+}
+
+export function setEditMode(edit){
+    return {
+        type: SET_EDIT_MODE,
+        edit
+    }
+}
+
+export function afterEdit(post){
+    console.log(post)
+    return {
+        type: AFTER_EDIT,
+        post
     }
 }
 

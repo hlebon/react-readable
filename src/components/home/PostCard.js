@@ -1,21 +1,25 @@
 import React, { Component } from 'react'
-import { Link, Redirect, history } from 'react-router-dom'
+import { Link, Redirect, history, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import sortBy from 'sort-by'
 import escapeRegExp from 'escape-string-regexp'
-import { changeVoteOnPostList, onDeletePost } from '../../actions'
+import { changeVoteOnPostList, onDeletePost, fetchSinglePost, setEditMode } from '../../actions'
 import VoteSection from '../common/VoteSection'
 import DeleteEdit from '../common/DeleteEdit'
 
 
 class PostCard extends Component{
-    state = {
-        onEditMode: false
-    }
 
     castDate = (unformatt) => {
         const date = new Date(unformatt);
         return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+    }
+
+    componentDidMount(){
+        this.props.setEditMode({
+            onEdit: false,
+            postId: ""
+        })
     }
 
     onHandleVote = (post, score) => {
@@ -30,19 +34,19 @@ class PostCard extends Component{
         }
         else 
         if( type === "edit"){
-            this.setState({
-                onEditMode: true
-            })
-            
+            this.props.history.push(`/on/edit/${postId}`);
+            /*this.props.setEditMode({
+                onEdit: true,
+                postId: postId
+            })*/
         }
     }
 
     render(){
-        if (this.state.onEditMode) {
-            return <Redirect exact to='/edit'/>;
+        let { posts, filterBy, category, edit } = this.props
+        if (edit.onEdit) {
+            return <Redirect to={`/on/edit/${edit.postId}`}/>;
         }
-
-        let { posts, filterBy, category } = this.props
         
         let postList = []
         if(category !== undefined){
@@ -103,16 +107,19 @@ function mapStateToProps ( state ) {
     console.log(state)
     return { 
         posts: state.init.postItems,
-        filterBy: state.init.filterBy
+        filterBy: state.init.filterBy,
+        edit: state.post.edit
     }
 }
 
 function mapDispatchToProps ( dispatch ) {
     return {
         changeVote: (id, score, index) => dispatch((changeVoteOnPostList(id, score, index))),
-        onDeletePost: (postId) => dispatch((onDeletePost(postId)))
+        onDeletePost: (postId) => dispatch((onDeletePost(postId))),
+        setPostDetail: (id) => dispatch(fetchSinglePost(id)),
+        setEditMode: (edit) => dispatch(setEditMode(edit))
     }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostCard)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PostCard))

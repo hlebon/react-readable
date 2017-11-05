@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from "react-router-dom";
+import { fetchSinglePost, onUpdatePost, setEditMode } from '../../actions'
+import  serializeForm  from 'form-serialize'
 
 class EditPost extends Component{
 
@@ -6,7 +10,17 @@ class EditPost extends Component{
         title: "",
         body: "",
         author: "",
-        category: ""
+        category: "",
+        empty: true
+    }
+
+    componentDidMount = () => {
+        const id = this.props.postId
+        this.props.setPostDetail(id)
+        this.props.setEditMode({
+            onEdit: false,
+            postId: ""
+        })
     }
 
     guid = () => {
@@ -27,35 +41,69 @@ class EditPost extends Component{
             [name]: value
         })  
     }
+
+    updatePost = (id, post) => {
+        this.props.updatePost(id, post)
+    }
+
+    handleSubmit(id, e) {
+        e.preventDefault();
+        const values = serializeForm(e.target, { hash: true })
+        this.props.updatePost(id, values)
+        this.props.history.push("/");
+      }
         
 
     render(){
+        const { post, categories } = this.props
+        console.log(post.title)
         return (
-                <form onSubmit={this.handleSubmit} className="col-lg-6">
+                <form onSubmit={(event) => this.handleSubmit(post.id, event)} className="col-lg-6">
                     <div>
                         <h1>Edit Post</h1>
                     </div>
-                    <div className="form-group">
+                    <div key={post.title} className="form-group">
                         <label className="col-form-label">Post Title</label>
-                        <input name="title" value={this.state.title} onChange={this.handleInputChange} type="text" className="form-control" placeholder="Title"/>
+                        <input type="text" name="title" defaultValue={post.title || ''}  ref={(input) => this.input = input} type="text" className="form-control" placeholder="Title"/>
                     </div>
-                    <div className="form-group">
+                    <div key={post.body} className="form-group">
                         <label className="col-form-label">Body</label>
-                        <textarea name="body" value={this.state.body} onChange={this.handleInputChange} className="form-control"></textarea>
+                        <textarea name="body" defaultValue={post.body} ref={(input) => this.input = input} className="form-control"></textarea>
                     </div>
-                    <div className="form-row">
-                        <div className="col">
-                            <input name="author" value={this.state.author} onChange={this.handleInputChange}  type="text" className="form-control" placeholder="Author"/>
+                    <div className="form-row">  
+                        <div key={post.author} className="col">
+                            <label>Author</label>
+                            <p>{post.author}</p>
                         </div>
-                        <div className="col">
-                            <input name="category" value={this.state.category} onChange={this.handleInputChange}  type="text" className="form-control" placeholder="Categoria"/>
+                        <div key={post.category} className="col">
+                            <label>Category</label>
+                            <p>{post.category}</p>
                         </div>
+
                     </div>
                     <br/>
-                    <button className="btn btn-primary">Create</button>
+                    <button className="btn btn-primary">Edit</button>
                 </form>
         )
     }
 }
 
-export default EditPost
+function mapStateToProps(state){
+    console.log(state)
+    return {
+        post: state.post.post,
+        categories: state.init.categories
+    }
+}
+
+function dispatchStateToProps(dispatch){
+    return {
+        setPostDetail: (id) => dispatch(fetchSinglePost(id)),
+        updatePost: (id, body) => dispatch(onUpdatePost(id, body)),
+        setEditMode: (edit) => dispatch(setEditMode(edit))
+        
+    }
+}
+
+
+export default connect(mapStateToProps, dispatchStateToProps)(withRouter(EditPost))

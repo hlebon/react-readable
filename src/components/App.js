@@ -26,7 +26,9 @@ class App extends Component {
               <CreatePage/>
             )}/>
 
-            <Route exact path="/edit" component={EditPost}/>
+            <Route exact path="/on/edit/:post_id" render={(props)=>(
+              <EditPost postId={props.match.params.post_id}/>
+            )}/>
         </div>
     )
   }
