@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { setCommentToUpdate } from '../../actions'
+import { onUpdateComment } from '../../actions'
 import serializeForm from 'form-serialize';
 
 class ResponseForm extends Component{
@@ -9,14 +9,12 @@ class ResponseForm extends Component{
         body: ""
     }
 
-    guid = () => {
-        function s4() {
-          return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
-        }
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-          s4() + '-' + s4() + s4() + s4();
+    componentWillMount(){
+        console.log(this.props.comment)
+        this.setState({
+            author: this.props.comment.author,
+            body: this.props.comment.body
+        })
     }
 
     handleInputChange = (event) => {
@@ -28,23 +26,30 @@ class ResponseForm extends Component{
         })  
     }
 
+    closeModal = (e) => {
+        e.preventDefault();
+        this.props.closeModal();
+    }
+
+    
+
     handleSubmit = (e) => {
         e.preventDefault();
         const values = serializeForm(e.target, { hash: true })
-        values.id = this.guid()
-        values.timestamp = Date.now()
-        this.props.onCreateComment(values)
+        const id = this.props.comment.id
+        this.props.onUpdateComment(id, values)
         this.setState({
             author: "",
             body: ""
         })
+        this.props.closeModal();
     }
 
     render(){
         console.log(this.props.comment)
         return (
             <div className="mb-5 mt-5">
-                <h4>Write a response</h4>
+                <h4>Edit Comment</h4>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label>Usuario</label>
@@ -54,13 +59,26 @@ class ResponseForm extends Component{
                         <label>Comment</label>
                         <textarea name="body" value={this.state.body}  onChange={ e => this.handleInputChange(e)} className="form-control"></textarea>
                     </div>
-                    <button type="submit" className="btn btn-outline-success">
-                        Comment
+                    <button type="submit" className="float-right btn btn-outline-success">
+                        Update
                     </button>
+                    <button onClick={(e) => this.closeModal(e)} className="btn btn-secondary float-right">Cancel</button>
                 </form>
             </div>
         )
     }
 }
 
-export default ResponseForm
+function mapStateToProps(state){
+    return {
+        comment: state.post.comment
+    }
+}
+
+function dispatchStateToProps(dispatch){
+    return {
+        onUpdateComment: (id, body) => dispatch(onUpdateComment(id, body))
+    }
+}
+
+export default connect(mapStateToProps, dispatchStateToProps)(ResponseForm)

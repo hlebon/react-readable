@@ -72,17 +72,17 @@ class EditPost extends Component{
                     </div>
                     <div className="form-row">  
                         <div key={post.author} className="col">
-                            <label>Author</label>
+                            <label><strong>Author</strong></label>
                             <p>{post.author}</p>
                         </div>
                         <div key={post.category} className="col">
-                            <label>Category</label>
+                            <strong>Category</strong>
                             <p>{post.category}</p>
                         </div>
 
                     </div>
                     <br/>
-                    <button className="btn btn-primary">Edit</button>
+                    <button className="btn btn-primary">Update</button>
                 </form>
         )
     }

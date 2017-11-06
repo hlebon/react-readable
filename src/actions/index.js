@@ -18,6 +18,7 @@ export const REDIRECT = "REDIRECT"
 export const DELETE_COMMENT = "DELETE_COMMENT"
 export const AFTER_EDIT = "AFTER_EDIT"
 export const SET_EDIT_MODE = "SET_EDIT_MODE"
+export const COMMENT_TO_UPDATE = "COMMENT_TO_UPDATE"
 
 
 export function requestPosts( data ) {
@@ -48,6 +49,7 @@ export function onDeleteComment( id ){
         return ReadableAPI.deleteComment(id).then(( resp ) => {
             console.log(resp)
             dispatch(deleteComment(resp))
+            dispatch(fetchSinglePost(resp.parentId))
         })
     }
 }
@@ -83,7 +85,7 @@ export function fetchCategories(){
 export function onUpdatePost(id, body){
     return function(dispatch){
         return ReadableAPI.editPost(id, body).then((data) => {
-            dispatch(requestSinglePost(data, false))
+            dispatch(requestSinglePost(data))
             dispatch(afterEdit(data))
         })
     }
@@ -92,12 +94,7 @@ export function onUpdatePost(id, body){
 export function fetchSinglePost( data ){
     return function(dispatch){
         return ReadableAPI.getPostsDetails(data).then( ( data ) =>{
-            if(Object.getOwnPropertyNames(data).length === 0){
-                dispatch(requestSinglePost(data, true))
-            }else{
-                dispatch(requestSinglePost(data, false))
-            }
-            
+            dispatch(requestSinglePost(data, true))
         })
     }
 }
@@ -105,8 +102,7 @@ export function fetchSinglePost( data ){
 export function requestSinglePost( data, redirect ){
     return {
         type: REQUEST_SINGLE_POST,
-        data,
-        redirect
+        data
     }
 }
 //#endregion request-single-post
@@ -164,7 +160,17 @@ export function changeVoteOnComment(comment, index){
 export function onCreateAComment(comment){
     return function(dispatch){
         return ReadableAPI.addComment(comment).then((ncomment) => {
+            console.log(ncomment)
             dispatch(createAComment(ncomment))
+            dispatch(fetchSinglePost(ncomment.parentId))
+        })
+    }
+}
+
+export function onUpdateComment(id, body){
+    return function(dispatch){
+        return ReadableAPI.editComment(id, body).then((comment)=>{
+            dispatch(fetchComments(comment.parentId))
         })
     }
 }
@@ -176,12 +182,18 @@ export function deletePost(data){
     }
 }
 
+export function setCommentToUpdate(comment){
+    return {
+        type: COMMENT_TO_UPDATE,
+        comment
+    }
+}
+
 export function onDeletePost(postId){
     return function(dispatch){
         return ReadableAPI.deletePost(postId).then((post) => {
-            console.log(post)
             if(post.deleted){
-                dispatch(requestSinglePost({}, post.deleted))
+                dispatch(requestSinglePost({}))
                 dispatch(fetchPosts())
             }
         })

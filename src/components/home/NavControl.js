@@ -59,7 +59,7 @@ class NavControl extends Component{
         console.log(this.state)
         return(
             <div className="raw bg-light d-flex justify-content-center">
-                <div className="col">
+                <div className="col component">
                     <h5 className="pt-2">Order by</h5>
                     <div>
                         <div className="form-group">

@@ -15,38 +15,23 @@ class PostCard extends Component{
         return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     }
 
-    componentDidMount(){
-        this.props.setEditMode({
-            onEdit: false,
-            postId: ""
-        })
-    }
-
     onHandleVote = (post, score) => {
         const index = this.props.posts.indexOf(post)
         this.props.changeVote(post.id, score, index)
     }
 
-    handleAction = (postId, type) => {
-        console.log(postId, type)
+    handleAction = (obj, type) => {
         if( type === "delete" ){
-            this.props.onDeletePost(postId)
+            this.props.onDeletePost(obj.id)
         }
         else 
         if( type === "edit"){
-            this.props.history.push(`/on/edit/${postId}`);
-            /*this.props.setEditMode({
-                onEdit: true,
-                postId: postId
-            })*/
+            this.props.history.push(`/on/edit/${obj.id}`)
         }
     }
 
     render(){
-        let { posts, filterBy, category, edit } = this.props
-        if (edit.onEdit) {
-            return <Redirect to={`/on/edit/${edit.postId}`}/>;
-        }
+        let { posts, filterBy, category } = this.props
         
         let postList = []
         if(category !== undefined){
@@ -85,7 +70,7 @@ class PostCard extends Component{
                                 </div>
                                 <div className="card-footer text-muted list-inline">
                                     <VoteSection value={post} position={""} changeVote={this.onHandleVote}/>
-                                    <DeleteEdit handleAction={this.handleAction} id={post.id} position="float-right"/>
+                                    <DeleteEdit handleAction={this.handleAction} obj={post} position="float-right"/>
                                 </div>
                             </div>
                             ))

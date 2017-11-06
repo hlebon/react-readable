@@ -1,28 +1,35 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { voteAComment, onDeleteComment } from '../../actions'
+import { voteAComment, onDeleteComment, setCommentToUpdate } from '../../actions'
+import Modal from 'react-modal'
 import VoteSection from './VoteSection'
 import DeleteEdit from './DeleteEdit'
+import EditForm from './EditForm'
 
 class Comments extends Component{
+
+    state = {
+        modalOpen: false
+    }
+
     castDate = (date) => {
         this.props.castDate(date)
     }
 
-    handleAction = (id, type) => {
+    handleAction = (comment, type) => {
         if(type === "delete"){
-            this.delete(id)
+            this.delete(comment.id)
         }else if(type === "edit"){
-            this.edit(id)
+            this.edit(comment)
         }
     }
 
-    edit = (id) => {
-        console.log(id);
+    edit = (comment) => {
+        this.props.setCommentToUpdate(comment);
+        this.setState(() => ({ modalOpen: true }))
     }
 
     delete = (id) => {
-        console.log(id)
         this.props.onDeleteComment(id)
     }
 
@@ -30,8 +37,12 @@ class Comments extends Component{
         this.props.voteAcomment(comment.id, score, this.props.comments.indexOf(comment))
     }
 
+    closeModal = () => this.setState(() => ({ modalOpen: false }))
+
     render(){
-        const { comments } = this.props;
+        const { comments } = this.props
+        const { modalOpen } = this.state
+
         return(
             <div className="mb-5">
                 <div>
@@ -39,29 +50,45 @@ class Comments extends Component{
                 </div>
                 <div className="list-group">
                     {comments.map((comment)=> (
-                        <div key={comment.id} className="mt-2 list-group-item list-group-item flex-column align-items-start">
+                        <div key={comment.id} className="component-list mt-2 list-group-item list-group-item flex-column align-items-start">
                             <div className="mb-3 d-flex w-100 justify-content-between">
-                                <h6 className="mb-1">{comment.author}</h6>
+                                <h5 className="mb-1"><i>{comment.author}</i></h5>
                                 <small>{this.castDate(comment.timestamp)}</small>
                             </div>
                             <p className="mb-1">{comment.body}</p>
                             <div className="mt-3 list-inline card-subtitle mb-2 text-muted">
                                 <VoteSection  position={""} changeVote={this.handleVoteComment} value={comment}/>
-                                <DeleteEdit onDelete={this.handleAction} position="float-right" id={comment.id}/>
+                                <DeleteEdit handleAction={this.handleAction} position="float-right" obj={comment}/>
                             </div>
                         </div>
                     ))}
                 </div>
+                <Modal 
+                    className='rmodal'
+                    overlayClassName='overlay'
+                    isOpen={modalOpen}
+                    onRequestClose={this.closeModal}
+                    contentLabel='Modal'
+                >
+                    <EditForm closeModal={this.closeModal}/>
+                </Modal>
             </div>
         )
+    }
+}
+
+function mapStateToProps(state){
+    return {
+        comment: state.post.comment
     }
 }
 
 function mapDispatchToProps ( dispatch ) {
     return {
         voteAcomment: (id, score, comments) => dispatch((voteAComment(id, score, comments))),
-        onDeleteComment: (id) => dispatch(onDeleteComment(id))
+        onDeleteComment: (id) => dispatch(onDeleteComment(id)),
+        setCommentToUpdate: (edit) => dispatch(setCommentToUpdate(edit))
     }
 }
 
-export default connect(null, mapDispatchToProps)(Comments)
+export default connect(mapStateToProps, mapDispatchToProps)(Comments)

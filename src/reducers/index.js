@@ -16,7 +16,8 @@ import {
     DELETE_COMMENT,
     FILTER_POSTS_BY_VALUE,
     AFTER_EDIT,
-    SET_EDIT_MODE
+    SET_EDIT_MODE,
+    COMMENT_TO_UPDATE
 } from '../actions'
 
 
@@ -33,10 +34,10 @@ const initialState = {
 const initSinglePostInfo = {
     comments: [],
     post: {},
-    redirect: false,
-    edit: {
-        onEdit: false,
-        postId: ""
+    comment: {
+        id: "",
+        author: "",
+        body: ""
     }
 }
 
@@ -131,13 +132,14 @@ function post (state = initSinglePostInfo, action){
                     }
                 })
             })
-        case SET_EDIT_MODE:
+        case COMMENT_TO_UPDATE:
             return {
                 ...state,
-                edit: {
-                    ...state.edit,
-                    onEdit: action.edit.onEdit,
-                    postId: action.edit.postId
+                comment: {
+                    ...state.comment,
+                    id: action.comment.id,
+                    author: action.comment.author,
+                    body: action.comment.body
                 }
             }
         default:

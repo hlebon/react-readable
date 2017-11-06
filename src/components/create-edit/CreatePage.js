@@ -34,8 +34,6 @@ class CreatePage extends Component{
 
     closeCreatePage = (e) => {
         e.preventDefault();
-        console.log(e);
-        console.log("closeCreatePage")
         this.props.closeModal();
     } 
 

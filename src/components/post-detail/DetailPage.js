@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import sortBy from 'sort-by'
 import { connect } from 'react-redux'
-import { Route, Redirect } from 'react-router'
+import { Route, Redirect, withRouter } from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
 import { fetchSinglePost, fetchComments, changeVote, voteAComment, onCreateAComment, onDeletePost } from '../../actions'
 import VoteSection from '../common/VoteSection'
@@ -31,23 +31,21 @@ class DetailPage extends Component{
         this.props.onCreateAComment(values);
     }
 
-    handleAction = (postId, type) => {
-        console.log("handleAction")
+    handleAction = (obj, type) => {
         if(type === "delete"){
-            this.deletePost(postId);
+            this.deletePost(obj.id);
         }else if(type === "edit"){
-            this.editPost(postId)
+            this.editPost(obj.id)
         } 
     }
 
     deletePost = (postId) => {
         this.props.onDeletePost(postId);
+        this.props.history.push(`/`)
     }
 
     editPost = (postId) => {
-        this.setState({
-            onEditMode: true
-        })
+        this.props.history.push(`/on/edit/${postId}`)
     }
 
     castDate = (unformatt) => {
@@ -56,19 +54,7 @@ class DetailPage extends Component{
     }
 
     render(){
-
-        const redirect = this.props.redirect;
-        console.log(redirect);
-        if (redirect) {
-            return <Redirect exact to='/'/>;
-        }
-
-        if(this.state.onEditMode){
-            return <Redirect exact to='/edit'/>;
-        }
-
-        const { post, comments } = this.props;
-        console.log(post);
+        const { post, comments, comment } = this.props;
         comments.sort(sortBy("-voteScore"));
 
         return (
@@ -89,8 +75,7 @@ function mapStateToProps ( state ) {
     console.log(state)
     return { 
         post: state.post.post,
-        comments: state.post.comments,
-        redirect: state.post.redirect
+        comments: state.post.comments
     }
 }
 
@@ -104,4 +89,4 @@ function mapDispatchToProps ( dispatch ) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailPage)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DetailPage))
