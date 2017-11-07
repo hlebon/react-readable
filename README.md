@@ -4,6 +4,7 @@
 ## Table of Contents
 
 - [About](#about)
+- [Server](#server)
 - [Installing](#installing)
 - [Launch](#launch)
 - [Something is missing?](#something-is-missing)
